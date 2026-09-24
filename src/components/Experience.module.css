@@ -1,0 +1,241 @@
+/* ==================================================================
+   FONDUE FLAME — The Experience
+   All four stages in one frame. Nothing is hidden behind a scroll the
+   visitor has to discover for themselves.
+================================================================== */
+
+.section {
+  position: relative;
+  background: #241511;
+  color: var(--ff-white);
+  isolation: isolate;
+}
+
+.inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: clamp(6.5rem, 12vw, 11rem) clamp(1.5rem, 3.2vw, 4.5rem)
+    clamp(4.5rem, 8vw, 7rem);
+}
+
+/* --- Heading -------------------------------------------------------- */
+.head {
+  max-width: 44rem;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ff-copper-light);
+}
+.eyebrowRule {
+  flex: 0 1 96px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(227, 172, 131, 0.5), rgba(227, 172, 131, 0));
+}
+
+.headline {
+  margin: clamp(1.25rem, 2vw, 1.75rem) 0 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.25rem, 4.4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+  color: var(--ff-white);
+}
+
+/* --- The four stages, side by side ----------------------------------- */
+.steps {
+  list-style: none;
+  margin: clamp(3rem, 5.5vw, 4.75rem) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.25rem, 4vw, 3rem);
+}
+
+@media (min-width: 640px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1rem, 1.6vw, 1.75rem);
+  }
+  /* A gentle drop on alternate columns — an editorial rhythm rather
+     than four identical tiles in a rigid row. */
+  .step:nth-child(even) {
+    margin-top: clamp(1.75rem, 3.4vw, 3.5rem);
+  }
+}
+
+.step {
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 800ms var(--ff-ease-soft), transform 900ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #1b0f0b;
+  aspect-ratio: 3 / 4;
+  /* Uncovers from the base as the row arrives */
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1000ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .frame {
+  clip-path: inset(0 0 0 0);
+}
+.shot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ff-ease);
+}
+.step:hover .shot {
+  transform: scale(1.03);
+}
+/* Keeps each frame sitting on the chocolate rather than floating on it */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 70px 10px rgba(20, 11, 7, 0.45);
+}
+
+.stepHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  margin: clamp(1.375rem, 2.2vw, 1.875rem) 0 0;
+  padding-bottom: clamp(0.875rem, 1.3vw, 1.125rem);
+  border-bottom: 1px solid rgba(227, 172, 131, 0.28);
+}
+.stepNum {
+  flex: 0 0 auto;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ff-copper-light);
+}
+.stepLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ff-white);
+}
+.stepText {
+  margin: clamp(0.875rem, 1.4vw, 1.125rem) 0 0;
+  font-size: clamp(0.875rem, 1vw, 0.9375rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* --- Closing statement ------------------------------------------------ */
+.closing {
+  position: relative;
+  padding: clamp(5rem, 9vw, 8rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(6rem, 11vw, 10rem);
+  text-align: center;
+}
+.closingInner {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+.closingMark {
+  display: block;
+  width: 3px;
+  height: 3px;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem);
+  background: var(--ff-copper-light);
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 700ms var(--ff-ease-soft);
+}
+.closingLine {
+  margin: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.875rem, 4vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ff-white);
+}
+.cLine {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.cLineInner {
+  display: block;
+  transform: translateY(106%);
+  transition: transform 950ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.closingReady .closingMark {
+  opacity: 1;
+}
+.closingReady .cLineInner {
+  transform: translateY(0);
+}
+
+@media (max-width: 639px) {
+  .headline {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+  .frame {
+    aspect-ratio: 4 / 5;
+  }
+  .steps {
+    gap: 2.25rem;
+  }
+}
+
+/* --- Motion preference ------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .section,
+  .section * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .step {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .frame {
+    clip-path: none !important;
+  }
+  .cLineInner {
+    transform: none !important;
+  }
+  .closingMark {
+    opacity: 1 !important;
+  }
+  .step:hover .shot {
+    transform: none;
+  }
+}

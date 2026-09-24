@@ -1,0 +1,325 @@
+/* ==================================================================
+   FONDUE FLAME — Share the Moment
+   A full-bleed frame from the campaign. The picture carries the
+   emotion; the copy sits quietly in the negative space on the left.
+================================================================== */
+
+.section {
+  position: relative;
+  min-height: 90svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: #251713;
+  /* Written from JS while the section is in view */
+  --drift: 0px;
+  --zoom: 1.04;
+}
+
+@media (min-width: 1024px) {
+  .section {
+    min-height: min(90svh, 920px);
+  }
+}
+
+/* --- Photograph ---------------------------------------------------- */
+.media {
+  position: absolute;
+  inset: -4% 0;
+  z-index: -2;
+  transform: translate3d(0, var(--drift), 0) scale(var(--zoom));
+  transform-origin: 68% 50%;
+  will-change: transform;
+  transition: transform 1400ms var(--ff-ease);
+}
+.ready .media {
+  --zoom: 1;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 50%;
+}
+
+/* --- Warm overlay: calm on the left, clear over the product -------- */
+.wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Tuned against the frame itself: holds the copy above 4.5:1 down to
+     1280px while dimming the product pocket by only ~6%. */
+  background: linear-gradient(
+    96deg,
+    rgba(30, 18, 12, 0.88) 0%,
+    rgba(30, 18, 12, 0.8) 22%,
+    rgba(30, 18, 12, 0.62) 38%,
+    rgba(30, 18, 12, 0.26) 52%,
+    rgba(30, 18, 12, 0.04) 64%,
+    rgba(30, 18, 12, 0) 72%
+  );
+}
+
+/* Eases into the section that follows without darkening the frame */
+.washFoot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    #251713 0%,
+    rgba(37, 23, 19, 0.7) 26%,
+    rgba(37, 23, 19, 0.3) 58%,
+    rgba(37, 23, 19, 0) 100%
+  );
+}
+
+/* --- Copy ----------------------------------------------------------- */
+.inner {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(7rem, 12vw, 9rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(8rem, 13vw, 10rem);
+}
+
+.copy {
+  max-width: min(44%, 36rem);
+}
+
+.rise {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 860ms var(--ff-ease-soft), transform 1000ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ff-copper-light);
+}
+.eyebrowRule {
+  flex: 0 1 92px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(227, 172, 131, 0.55), rgba(227, 172, 131, 0));
+}
+
+.headline {
+  margin: clamp(1.5rem, 2.4vw, 2.25rem) 0 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.75rem, 5.4vw, 5.375rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.016em;
+  color: var(--ff-white);
+}
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.lineInner {
+  display: block;
+  transform: translateY(106%);
+  transition: transform 1050ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .lineInner {
+  transform: translateY(0);
+}
+
+.lead {
+  margin: clamp(1.75rem, 2.8vw, 2.5rem) 0 0;
+  max-width: 31ch;
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  margin: clamp(1.75rem, 2.6vw, 2.25rem) 0 0;
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.56);
+}
+.metaRule {
+  width: 30px;
+  height: 1px;
+  margin-right: 1rem;
+  background: var(--ff-copper-light);
+  opacity: 0.7;
+}
+
+/* --- CTA -------------------------------------------------------------- */
+.ctaRow {
+  margin-top: clamp(2.5rem, 4vw, 3.25rem);
+}
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 0 0.9rem;
+  color: var(--ff-white);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 280ms var(--ff-ease-soft);
+}
+.cta::before,
+.cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+}
+.cta::before {
+  background: rgba(255, 255, 255, 0.26);
+}
+.cta::after {
+  background: var(--ff-copper-light);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 280ms var(--ff-ease);
+}
+.cta:hover,
+.cta:focus-visible {
+  color: var(--ff-copper-light);
+}
+.cta:hover::after,
+.cta:focus-visible::after {
+  transform: scaleX(1);
+}
+.ctaArrow {
+  display: inline-block;
+  color: var(--ff-copper-light);
+  transition: transform 280ms var(--ff-ease);
+}
+.cta:hover .ctaArrow,
+.cta:focus-visible .ctaArrow {
+  transform: translateX(6px);
+}
+.cta:focus-visible {
+  outline-offset: 10px;
+}
+
+/* --- Editorial caption ------------------------------------------------- */
+.caption {
+  position: absolute;
+  right: clamp(1.5rem, 3.6vw, 5rem);
+  bottom: clamp(1.75rem, 3vw, 2.75rem);
+  margin: 0;
+  z-index: 1;
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: opacity 800ms var(--ff-ease-soft);
+  transition-delay: 1250ms;
+}
+.ready .caption {
+  opacity: 1;
+}
+
+/* --- Mobile -------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .section {
+    /* Copy sits high, where the portrait crop leaves the frame quiet */
+    align-items: flex-start;
+    min-height: 88svh;
+  }
+  .media {
+    inset: 0;
+    transform-origin: 50% 62%;
+  }
+  .photo {
+    object-position: 52% 62%;
+  }
+  /* Vertical wash instead of horizontal — the product is lower-middle */
+  .wash {
+    background: linear-gradient(
+      to bottom,
+      rgba(37, 23, 19, 0.86) 0%,
+      rgba(37, 23, 19, 0.66) 28%,
+      rgba(37, 23, 19, 0.28) 48%,
+      rgba(37, 23, 19, 0.06) 64%,
+      rgba(37, 23, 19, 0) 78%
+    );
+  }
+  .washFoot {
+    height: 20%;
+  }
+  .inner {
+    padding-top: clamp(7.5rem, 22vw, 9.5rem);
+    padding-bottom: 4rem;
+  }
+  .copy {
+    max-width: none;
+  }
+  .headline {
+    font-size: clamp(2.75rem, 11.5vw, 3.25rem);
+  }
+  .lead {
+    max-width: 30ch;
+    font-size: 0.9375rem;
+  }
+  .caption {
+    left: clamp(1.5rem, 3.6vw, 5rem);
+    right: auto;
+    bottom: 1.5rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.28em;
+  }
+}
+
+/* --- Motion preference ---------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .section,
+  .section * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .media {
+    transform: none !important;
+  }
+  .rise,
+  .caption {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .lineInner {
+    transform: none !important;
+  }
+}

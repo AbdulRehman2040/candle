@@ -1,0 +1,271 @@
+/* ==================================================================
+   FONDUE FLAME — Wholesale enquiry form
+   Plain, legible and quick to complete. Restraint over decoration.
+================================================================== */
+
+.panel {
+  min-width: 0;
+}
+
+.formTitle {
+  margin: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #2b1b18;
+}
+.formNote {
+  margin: 0.75rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: rgba(45, 28, 21, 0.86);
+}
+.req {
+  color: var(--ff-copper-deep);
+}
+
+/* --- Grid ---------------------------------------------------------- */
+.form {
+  margin-top: clamp(2rem, 3.2vw, 2.75rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 2vw, 1.625rem) clamp(1.25rem, 2.2vw, 1.75rem);
+}
+@media (min-width: 640px) {
+  .form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .wide {
+    grid-column: 1 / -1;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  margin: 0;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(35, 21, 16, 0.96);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #a38a72;
+  border-radius: 3px;
+  background: #fffdfa;
+  color: #2b1b18;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  transition: border-color 220ms var(--ff-ease-soft),
+    box-shadow 220ms var(--ff-ease-soft);
+}
+.textarea {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.7;
+}
+.select {
+  appearance: none;
+  padding-right: 2.5rem;
+  background-image: linear-gradient(45deg, transparent 50%, #9a5f37 50%),
+    linear-gradient(135deg, #9a5f37 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% + 1px),
+    calc(100% - 15px) calc(50% + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(63, 41, 32, 0.72);
+}
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+  border-color: #8d7560;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--ff-copper);
+  box-shadow: 0 0 0 3px rgba(184, 122, 80, 0.14);
+}
+
+/* --- Inline validation ---------------------------------------------- */
+.invalid,
+.invalid:hover {
+  border-color: #a8452f;
+}
+.invalid:focus {
+  border-color: #a8452f;
+  box-shadow: 0 0 0 3px rgba(168, 69, 47, 0.14);
+}
+.error {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #96331f;
+}
+
+/* --- Submit ---------------------------------------------------------- */
+.foot {
+  grid-column: 1 / -1;
+  margin-top: clamp(0.5rem, 1.2vw, 1rem);
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  min-height: 56px;
+  padding: 0 2.75rem;
+  border: 1px solid #2b1b18;
+  border-radius: 3px;
+  background: #2b1b18;
+  color: var(--ff-white);
+  font-family: inherit;
+  font-size: 0.71875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 250ms var(--ff-ease-soft),
+    border-color 250ms var(--ff-ease-soft);
+}
+.submit:hover:not(:disabled),
+.submit:focus-visible:not(:disabled) {
+  background: var(--ff-copper-deep);
+  border-color: var(--ff-copper-deep);
+}
+.submitArrow {
+  display: inline-block;
+  transition: transform 250ms var(--ff-ease);
+}
+.submit:hover:not(:disabled) .submitArrow,
+.submit:focus-visible:not(:disabled) .submitArrow {
+  transform: translateX(5px);
+}
+.submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.submit:focus-visible {
+  outline-offset: 4px;
+}
+
+.privacy {
+  margin: clamp(1.25rem, 2vw, 1.5rem) 0 0;
+  max-width: 52ch;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(45, 28, 21, 0.86);
+}
+.privacy a {
+  color: var(--ff-copper-deep);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(154, 95, 55, 0.38);
+  transition: border-color 220ms var(--ff-ease-soft);
+}
+.privacy a:hover,
+.privacy a:focus-visible {
+  border-bottom-color: var(--ff-copper-deep);
+}
+
+/* A single summary line when the whole submission fails */
+.formError {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  border-left: 2px solid #a8452f;
+  background: rgba(168, 69, 47, 0.07);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #2b1b18;
+}
+
+/* --- Success --------------------------------------------------------- */
+.sent {
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+.sentFlame {
+  display: block;
+  width: 26px;
+  height: auto;
+  margin-bottom: clamp(1.5rem, 2.4vw, 2rem);
+}
+.sentTitle {
+  margin: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.875rem, 3.2vw, 2.75rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  color: #2b1b18;
+}
+.sentText {
+  margin: 1.25rem 0 0;
+  max-width: 40ch;
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.8;
+  color: rgba(45, 28, 21, 0.94);
+}
+.sentCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 54px;
+  margin-top: clamp(2rem, 3.2vw, 2.5rem);
+  padding: 0 2.5rem;
+  border: 1px solid #2b1b18;
+  border-radius: 3px;
+  background: transparent;
+  color: #2b1b18;
+  font-size: 0.71875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 250ms var(--ff-ease-soft),
+    color 250ms var(--ff-ease-soft), border-color 250ms var(--ff-ease-soft);
+}
+.sentCta:hover,
+.sentCta:focus-visible {
+  background: #2b1b18;
+  color: var(--ff-white);
+}
+.sentCta:focus-visible {
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel *,
+  .submit,
+  .sentCta {
+    transition-duration: 1ms !important;
+  }
+}

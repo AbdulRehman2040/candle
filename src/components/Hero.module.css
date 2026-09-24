@@ -1,0 +1,433 @@
+/* ==================================================================
+   FONDUE FLAME — Hero
+   Full-bleed loop graded into warm chocolate. The left holds a deep,
+   calm bed for cream typography; the product keeps a clear pocket at
+   centre-right. Cinematic first, editorial from the next section on.
+================================================================== */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #26150c;
+  isolation: isolate;
+
+  /* Written from JS on scroll; all transform / opacity only */
+  --media-y: 0px;
+  --media-scale: 1;
+  --copy-y: 0px;
+  --copy-o: 1;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    min-height: min(100svh, 980px);
+  }
+}
+
+/* --- Media ------------------------------------------------------- */
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  transform: translate3d(0, var(--media-y), 0) scale(var(--media-scale));
+  transform-origin: 62% 50%;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 1000ms var(--ff-ease-soft);
+}
+.ready .media {
+  opacity: 1;
+}
+
+.video,
+.poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The bowl sits at ~64% across the frame — keep it when cropping */
+  object-position: 64% 50%;
+}
+
+/* --- Cinematic grade ----------------------------------------------- */
+.wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* One layer only — a warm espresso bed for the typography that runs
+     out well before the product. Nothing is laid over the right-hand
+     side of the frame, so the video plays ungraded. */
+  background: linear-gradient(
+    100deg,
+    rgba(46, 26, 16, 0.91) 0%,
+    rgba(46, 26, 16, 0.84) 22%,
+    rgba(46, 26, 16, 0.62) 40%,
+    rgba(46, 26, 16, 0.22) 56%,
+    rgba(46, 26, 16, 0) 70%
+  );
+  pointer-events: none;
+}
+
+/* --- Copy column -------------------------------------------------- */
+.inner {
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  /* Same gutter as the header, so the eyebrow aligns under the logo */
+  padding: 11rem clamp(1.5rem, 3.6vw, 5rem) 9rem;
+}
+
+.copy {
+  max-width: min(45%, 41rem);
+  transform: translate3d(0, var(--copy-y), 0);
+  opacity: var(--copy-o);
+  will-change: transform, opacity;
+}
+
+/* Every entrance element starts hidden and is released by .ready */
+.rise {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 800ms var(--ff-ease-soft), transform 900ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ff-copper-light);
+}
+
+/* --- Headline: line-by-line masked reveal -------------------------- */
+.headline {
+  margin: 1.75rem 0 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(3rem, 6.2vw, 6.25rem);
+  font-weight: 300;
+  line-height: 0.99;
+  letter-spacing: -0.012em;
+  color: var(--ff-white);
+}
+.line {
+  display: block;
+  /* Room for the descender in "Experience." inside the mask */
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.lineInner {
+  display: block;
+  transform: translateY(106%);
+  transition: transform 950ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .lineInner {
+  transform: translateY(0);
+}
+
+.lead {
+  margin: 2rem 0 0;
+  max-width: 32ch;
+  font-size: clamp(1rem, 1.15vw, 1.1875rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: #fff;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0 0;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+.metaRule {
+  width: 28px;
+  height: 1px;
+  margin-right: 1rem;
+  background: var(--ff-copper-light);
+  opacity: 0.7;
+}
+
+/* --- Actions ------------------------------------------------------- */
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.125rem;
+  margin-top: 3rem;
+}
+
+.ctaPrimary {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 1.25rem 2.75rem;
+  border: 1px solid var(--ff-white);
+  border-radius: 2px;
+  background: var(--ff-white);
+  color: var(--ff-chocolate);
+  font-size: 0.71875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 320ms var(--ff-ease-soft), transform 320ms var(--ff-ease);
+}
+.ctaPrimary::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: var(--ff-copper-light);
+  transform: translateY(101%);
+  transition: transform 480ms var(--ff-ease);
+}
+.ctaPrimary:hover,
+.ctaPrimary:focus-visible {
+  border-color: var(--ff-copper-light);
+  transform: translateY(-1px);
+}
+.ctaPrimary:hover::before,
+.ctaPrimary:focus-visible::before {
+  transform: translateY(0);
+}
+.ctaPrimary:focus-visible {
+  outline-offset: 5px;
+}
+
+/* Secondary: same footprint, a translucent fill and a white hairline so
+   it reads as a button rather than a stray link. */
+.ctaGhost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.25rem 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ff-white);
+  font-size: 0.71875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 320ms var(--ff-ease-soft),
+    border-color 320ms var(--ff-ease-soft), color 320ms var(--ff-ease-soft),
+    transform 320ms var(--ff-ease);
+}
+.ctaGhost:hover,
+.ctaGhost:focus-visible {
+  background: var(--ff-white);
+  border-color: var(--ff-white);
+  color: var(--ff-chocolate);
+  transform: translateY(-1px);
+}
+.ctaArrow {
+  display: inline-block;
+  transition: transform 320ms var(--ff-ease);
+}
+.ctaGhost:hover .ctaArrow,
+.ctaGhost:focus-visible .ctaArrow {
+  transform: translateX(5px);
+}
+.ctaGhost:focus-visible {
+  outline-offset: 5px;
+}
+
+/* --- Scroll cue ----------------------------------------------------- */
+.cue {
+  position: absolute;
+  left: 50%;
+  bottom: 2.5rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 800ms var(--ff-ease-soft);
+  transition-delay: 900ms;
+}
+/* A small soft pool so the cue holds on bright marble — local, not a band */
+.cue::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 380px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(22, 12, 8, 0.55), rgba(22, 12, 8, 0));
+  pointer-events: none;
+}
+.ready .cue {
+  opacity: 1;
+}
+
+.cueLabel {
+  margin: 0;
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cueLine {
+  position: relative;
+  width: 1px;
+  height: 56px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.16);
+}
+.cueLine::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 40%;
+  background: var(--ff-copper-light);
+  animation: cueTravel 2600ms var(--ff-ease-soft) infinite;
+}
+
+@keyframes cueTravel {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(250%);
+  }
+}
+
+/* --- Below the desktop breakpoint ------------------------------------ */
+@media (max-width: 1023px) {
+  .inner {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+  .copy {
+    max-width: min(72%, 34rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    align-items: flex-end;
+    min-height: 92svh;
+  }
+  /* Lift the frame so the pot and strawberry sit in the upper half,
+     clear of the copy rather than behind it. */
+  .media {
+    transform-origin: 69% 42%;
+  }
+  /* A 16:9 frame in a portrait box can only be cropped sideways, so the
+     dipping action is pulled up and in with a transform instead. */
+  .video,
+  .poster {
+    object-position: 69% 50%;
+    transform: scale(1.2) translateY(-7.5%);
+  }
+  /* The lower half becomes a near-solid ground for the type */
+  .wash {
+    background: linear-gradient(
+      to top,
+      rgba(38, 21, 12, 0.97) 0%,
+      rgba(38, 21, 12, 0.95) 34%,
+      rgba(38, 21, 12, 0.78) 50%,
+      rgba(38, 21, 12, 0.34) 68%,
+      rgba(38, 21, 12, 0.06) 84%,
+      rgba(38, 21, 12, 0) 94%
+    );
+  }
+  .inner {
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+  }
+  .copy {
+    max-width: none;
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.26em;
+  }
+  .headline {
+    margin-top: 1rem;
+    font-size: clamp(2.5rem, 11.5vw, 3.25rem);
+  }
+  .lead {
+    margin-top: 1.25rem;
+    max-width: 34ch;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .meta {
+    margin-top: 1.25rem;
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .actions {
+    margin-top: 1.875rem;
+    gap: 0.75rem;
+  }
+  .ctaPrimary,
+  .ctaGhost {
+    flex: 1 1 100%;
+    padding: 1.05rem 1.5rem;
+  }
+  .cue {
+    display: none;
+  }
+}
+
+/* --- Motion preference ------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .hero * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .media {
+    transform: none !important;
+  }
+  .copy {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .lineInner {
+    transform: none !important;
+  }
+  .cueLine::after {
+    animation: none;
+    transform: translateY(30%);
+  }
+  .ctaPrimary:hover,
+  .ctaPrimary:focus-visible {
+    transform: none;
+  }
+}

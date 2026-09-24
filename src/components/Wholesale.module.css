@@ -1,0 +1,431 @@
+/* ==================================================================
+   FONDUE FLAME — Wholesale / Become a Stockist
+   Experience gives way to opportunity. Same restraint, commercial intent.
+================================================================== */
+
+.section {
+  position: relative;
+  background: #251713;
+  color: var(--ff-white);
+  isolation: isolate;
+  overflow: hidden;
+  --drift: 0px;
+}
+
+/* --- Background flame mark, barely there ------------------------- */
+.mark {
+  position: absolute;
+  right: clamp(-6rem, -4vw, -2rem);
+  top: 50%;
+  z-index: -1;
+  width: clamp(24rem, 46vw, 52rem);
+  height: auto;
+  transform: translateY(-50%);
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(6.5rem, 12vw, 11.5rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(7.5rem, 13vw, 12rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 6vw, 4rem);
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: minmax(0, 50fr) minmax(0, 44fr);
+    gap: clamp(3.5rem, 7vw, 7.5rem);
+    align-items: center;
+  }
+}
+
+/* --- Entrance ----------------------------------------------------- */
+.rise {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 800ms var(--ff-ease-soft), transform 950ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Photograph ---------------------------------------------------- */
+.visual {
+  position: relative;
+  order: 2;
+}
+@media (min-width: 1024px) {
+  .visual {
+    order: 0;
+    /* Breaks the grid a little, so it reads as editorial */
+    margin-left: clamp(-4rem, -2.5vw, 0rem);
+    margin-block: clamp(-3rem, -2vw, 0rem);
+  }
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #2f1f19;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1000ms var(--ff-ease);
+  transition-delay: 60ms;
+}
+.ready .frame {
+  clip-path: inset(0 0 0 0);
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: translate3d(0, var(--drift), 0) scale(1.03);
+  will-change: transform;
+  transition: transform 1200ms var(--ff-ease);
+}
+.ready .photo {
+  transform: translate3d(0, var(--drift), 0) scale(1);
+}
+
+/* --- Art-direction label -------------------------------------------- */
+.label {
+  margin: clamp(1.25rem, 2vw, 1.75rem) 0 0;
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  line-height: 2.1;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  opacity: 0;
+  transition: opacity 800ms var(--ff-ease-soft);
+  transition-delay: 1000ms;
+}
+.ready .label {
+  opacity: 1;
+}
+
+/* --- Copy ------------------------------------------------------------ */
+.copy {
+  order: 1;
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .copy {
+    order: 0;
+  }
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ff-copper-light);
+}
+.eyebrowRule {
+  flex: 0 1 92px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(227, 172, 131, 0.55), rgba(227, 172, 131, 0));
+}
+
+.headline {
+  margin: clamp(1.5rem, 2.4vw, 2.25rem) 0 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.5rem, 4.6vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.014em;
+  color: var(--ff-white);
+}
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.lineInner {
+  display: block;
+  transform: translateY(106%);
+  transition: transform 950ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .lineInner {
+  transform: translateY(0);
+}
+
+.lead {
+  margin: clamp(1.75rem, 2.6vw, 2.25rem) 0 0;
+  max-width: 40ch;
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.94);
+}
+.lead + .lead {
+  margin-top: clamp(1rem, 1.6vw, 1.375rem);
+  color: rgba(255, 255, 255, 0.84);
+}
+
+/* --- Value points: rules and type, never cards ----------------------- */
+.points {
+  list-style: none;
+  margin: clamp(2.75rem, 4.4vw, 3.75rem) 0 0;
+  padding: 0;
+}
+
+.point {
+  position: relative;
+  padding: clamp(1.25rem, 2vw, 1.625rem) 0;
+}
+/* The rule draws itself across as each point arrives */
+.point::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: rgba(227, 172, 131, 0.34);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 900ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .point::before {
+  transform: scaleX(1);
+}
+.point:last-child::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(227, 172, 131, 0.34);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 900ms var(--ff-ease);
+  transition-delay: calc(var(--d, 0ms) + 120ms);
+}
+.ready .point:last-child::after {
+  transform: scaleX(1);
+}
+
+.pointHead {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 1.8vw, 1.5rem);
+  margin: 0;
+}
+.pointNum {
+  flex: 0 0 auto;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ff-copper-light);
+}
+.pointTitle {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ff-white);
+}
+.pointText {
+  margin: 0.75rem 0 0;
+  padding-left: calc(clamp(1rem, 1.8vw, 1.5rem) + 1.75rem);
+  max-width: 44ch;
+  font-size: clamp(0.9375rem, 1.05vw, 1rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* --- Actions ---------------------------------------------------------- */
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.5rem;
+  margin-top: clamp(2.5rem, 4vw, 3.25rem);
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 2.75rem;
+  border: 1px solid var(--ff-copper);
+  border-radius: 2px;
+  background: var(--ff-copper);
+  color: #251713;
+  font-size: 0.71875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 250ms var(--ff-ease-soft),
+    border-color 250ms var(--ff-ease-soft), transform 250ms var(--ff-ease);
+}
+.ctaPrimary:hover,
+.ctaPrimary:focus-visible {
+  background: #a8683d;
+  border-color: #a8683d;
+  transform: translateY(-2px);
+}
+.ctaArrow {
+  display: inline-block;
+  transition: transform 250ms var(--ff-ease);
+}
+.ctaPrimary:hover .ctaArrow,
+.ctaPrimary:focus-visible .ctaArrow {
+  transform: translateX(5px);
+}
+.ctaPrimary:focus-visible {
+  outline-offset: 5px;
+}
+
+.ctaGhost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 0 0.6rem;
+  color: var(--ff-white);
+  font-size: 0.71875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 250ms var(--ff-ease-soft);
+}
+.ctaGhost::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 250ms var(--ff-ease);
+}
+.ctaGhost:hover,
+.ctaGhost:focus-visible {
+  color: var(--ff-copper-light);
+}
+.ctaGhost:hover::after,
+.ctaGhost:focus-visible::after {
+  transform: scaleX(1);
+}
+.ctaGhost:focus-visible {
+  outline-offset: 8px;
+}
+
+.micro {
+  margin: clamp(1.75rem, 2.6vw, 2.25rem) 0 0;
+  max-width: 40ch;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* --- Mobile ------------------------------------------------------------ */
+@media (max-width: 1023px) {
+  /* Order: eyebrow, headline, lead, photograph, points, CTA, micro */
+  .copy {
+    display: contents;
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .eyebrow {
+    order: 1;
+  }
+  .headline {
+    order: 2;
+    font-size: clamp(2.375rem, 9vw, 3.125rem);
+  }
+  .lead {
+    order: 3;
+    max-width: none;
+  }
+  .visual {
+    order: 4;
+    margin-top: clamp(2.75rem, 7vw, 3.5rem);
+  }
+  .points {
+    order: 5;
+  }
+  .actions {
+    order: 6;
+  }
+  .micro {
+    order: 7;
+    max-width: none;
+  }
+  .pointText {
+    max-width: none;
+  }
+  .mark {
+    right: -30%;
+    width: 30rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .ctaPrimary {
+    width: 100%;
+    justify-content: space-between;
+    padding-inline: 1.75rem;
+  }
+}
+
+/* --- Motion preference -------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .section,
+  .section * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .rise,
+  .label {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .lineInner {
+    transform: none !important;
+  }
+  .frame {
+    clip-path: none !important;
+  }
+  .photo {
+    transform: scale(1) !important;
+  }
+  .point::before,
+  .point:last-child::after {
+    transform: scaleX(1) !important;
+  }
+  .ctaPrimary:hover,
+  .ctaPrimary:focus-visible {
+    transform: none;
+  }
+}

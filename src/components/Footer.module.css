@@ -1,0 +1,156 @@
+/* ==================================================================
+   FONDUE FLAME — Footer
+   Minimal: the mark, one line of links, the copyright.
+================================================================== */
+
+.footer {
+  position: relative;
+  background: #241511;
+  color: var(--ff-white);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* The chocolate rises over whatever section came before */
+.cap {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 100%;
+  height: clamp(48px, 6vw, 104px);
+  display: block;
+  z-index: 1;
+  transform: translateY(-99%);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(4rem, 7vw, 6rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(2.5rem, 4vw, 3.5rem);
+}
+
+/* --- Entrance -------------------------------------------------------- */
+.rise {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 800ms var(--ff-ease-soft), transform 950ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Links ------------------------------------------------------------- */
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 260ms var(--ff-ease-soft);
+}
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.4rem;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 270ms var(--ff-ease);
+}
+.link:hover,
+.link:focus-visible {
+  color: #d08a5c;
+}
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+}
+.link:focus-visible {
+  outline-offset: 8px;
+}
+.arrow {
+  display: inline-block;
+  transition: transform 270ms var(--ff-ease);
+}
+.link:hover .arrow,
+.link:focus-visible .arrow {
+  transform: translateX(4px);
+}
+
+/* --- One quiet row: mark, links, copyright ----------------------------- */
+.bar {
+  padding-top: clamp(0.5rem, 1vw, 1rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem 3rem;
+}
+
+.brandLogo {
+  display: block;
+  width: auto;
+  height: clamp(62px, 6vw, 86px);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.copyright {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* --- Mobile -------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.125rem;
+  }
+}
+
+/* --- Motion preference ------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .footer,
+  .footer * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .rise {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .flame {
+    opacity: 0.9 !important;
+  }
+}

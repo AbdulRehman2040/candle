@@ -1,0 +1,376 @@
+/* ==================================================================
+   FONDUE FLAME — Our Story
+   Asymmetric editorial spread: a tall cinematic photograph on the left,
+   the origin story given room to breathe on the right.
+================================================================== */
+
+.section {
+  position: relative;
+  background: #f5efe6;
+  isolation: isolate;
+  overflow: hidden;
+  --drift: 0px;
+}
+
+.inner {
+  position: relative;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: clamp(6.5rem, 12vw, 11.5rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(8rem, 14vw, 13rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 6vw, 4.5rem);
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: minmax(0, 54fr) minmax(0, 40fr);
+    gap: clamp(3.5rem, 7vw, 8rem);
+    align-items: center;
+  }
+}
+
+/* --- Oversized editorial numeral behind the picture ---------------- */
+.ghost {
+  position: absolute;
+  left: clamp(-2rem, -1.5vw, -0.5rem);
+  top: clamp(1.5rem, 5vw, 4.5rem);
+  z-index: -1;
+  margin: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(15rem, 32vw, 34rem);
+  font-weight: 500;
+  line-height: 0.72;
+  letter-spacing: -0.05em;
+  color: #b9673e;
+  opacity: 0.07;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* --- Photograph ----------------------------------------------------- */
+.visual {
+  position: relative;
+  order: 2;
+}
+@media (min-width: 1024px) {
+  .visual {
+    order: 0;
+  }
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #e6dccd;
+  /* Revealed by a vertical clipping mask */
+  clip-path: inset(100% 0 0 0);
+  transform: translateY(35px);
+  transition: clip-path 1000ms var(--ff-ease), transform 1000ms var(--ff-ease);
+  transition-delay: 60ms;
+}
+.ready .frame {
+  clip-path: inset(0 0 0 0);
+  transform: translateY(0);
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Almost imperceptible drift inside the frame */
+  transform: translate3d(0, var(--drift), 0) scale(1.05);
+  will-change: transform;
+}
+
+.caption {
+  position: relative;
+  margin: clamp(1.25rem, 2vw, 1.75rem) 0 0;
+  padding-top: clamp(1rem, 1.6vw, 1.35rem);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  line-height: 1.9;
+  color: rgba(42, 24, 19, 0.62);
+  opacity: 0;
+  transition: opacity 700ms var(--ff-ease-soft);
+  transition-delay: 900ms;
+}
+.caption::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 1px;
+  background: #b9673e;
+  opacity: 0.55;
+}
+.ready .caption {
+  opacity: 1;
+}
+
+/* --- Copy ------------------------------------------------------------ */
+.copy {
+  order: 1;
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .copy {
+    order: 0;
+  }
+}
+
+.rise {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 780ms var(--ff-ease-soft), transform 920ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #b9673e;
+}
+.eyebrowRule {
+  flex: 0 1 96px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(185, 103, 62, 0.6), rgba(185, 103, 62, 0));
+}
+
+.headline {
+  margin: clamp(1.5rem, 2.4vw, 2.25rem) 0 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.625rem, 5vw, 4.75rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.016em;
+  color: #2a1813;
+}
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.lineInner {
+  display: block;
+  transform: translateY(106%);
+  transition: transform 950ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .lineInner {
+  transform: translateY(0);
+}
+
+/* --- The original question ------------------------------------------- */
+.quote {
+  position: relative;
+  margin: clamp(2.75rem, 4.4vw, 3.75rem) 0 0;
+  padding-left: clamp(1.625rem, 2.6vw, 2.5rem);
+}
+/* The copper rule grows top to bottom once the quote is centred */
+.quoteRule {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #b9673e;
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 1100ms var(--ff-ease);
+}
+.quoteLit .quoteRule {
+  transform: scaleY(1);
+}
+
+.quoteText {
+  margin: 0;
+  max-width: 26ch;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.25rem, 1.85vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(42, 24, 19, 0.7);
+  transition: color 900ms var(--ff-ease-soft);
+}
+.quoteLit .quoteText {
+  color: #2a1813;
+}
+
+/* --- Story copy -------------------------------------------------------- */
+.story {
+  margin: clamp(2.75rem, 4.4vw, 3.5rem) 0 0;
+}
+.para {
+  margin: 0;
+  max-width: 38ch;
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.8;
+  color: rgba(45, 28, 21, 0.96);
+}
+.para + .para {
+  margin-top: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.mission {
+  margin: clamp(2rem, 3.2vw, 2.75rem) 0 0;
+  padding-top: clamp(1.75rem, 2.8vw, 2.25rem);
+  border-top: 1px solid rgba(185, 103, 62, 0.22);
+  max-width: 36ch;
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.75;
+  color: rgba(42, 24, 19, 0.9);
+}
+
+/* --- CTA ---------------------------------------------------------------- */
+.ctaRow {
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+}
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 0 0.9rem;
+  color: #2a1813;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 280ms var(--ff-ease-soft);
+}
+.cta::before,
+.cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+}
+.cta::before {
+  background: rgba(185, 103, 62, 0.34);
+}
+.cta::after {
+  background: #b9673e;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 280ms var(--ff-ease);
+}
+.cta:hover,
+.cta:focus-visible {
+  color: #b9673e;
+}
+.cta:hover::after,
+.cta:focus-visible::after {
+  transform: scaleX(1);
+}
+.ctaArrow {
+  display: inline-block;
+  color: #b9673e;
+  transition: transform 280ms var(--ff-ease);
+}
+.cta:hover .ctaArrow,
+.cta:focus-visible .ctaArrow {
+  transform: translateX(6px);
+}
+.cta:focus-visible {
+  outline-offset: 10px;
+}
+
+/* --- Mobile ------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  /* Order: eyebrow, headline, quote, photograph, story, mission, CTA */
+  .copy {
+    display: contents;
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .eyebrow {
+    order: 1;
+  }
+  .headline {
+    order: 2;
+    font-size: clamp(2.375rem, 9vw, 3rem);
+  }
+  .quote {
+    order: 3;
+  }
+  .visual {
+    order: 4;
+    margin-top: clamp(2.75rem, 7vw, 3.5rem);
+  }
+  .story {
+    order: 5;
+  }
+  .mission {
+    order: 6;
+  }
+  .ctaRow {
+    order: 7;
+  }
+  .para,
+  .mission,
+  .quoteText {
+    max-width: none;
+  }
+  .ghost {
+    font-size: clamp(11rem, 44vw, 18rem);
+    top: auto;
+    bottom: 12%;
+  }
+}
+
+/* --- Motion preference --------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .section,
+  .section * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .rise,
+  .caption {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .lineInner {
+    transform: none !important;
+  }
+  .frame {
+    clip-path: none !important;
+    transform: none !important;
+  }
+  .photo {
+    transform: scale(1.05) !important;
+  }
+  .quoteRule {
+    transform: scaleY(1) !important;
+  }
+  .quoteText {
+    color: #2a1813 !important;
+  }
+}

@@ -1,0 +1,608 @@
+/* ==================================================================
+   FONDUE FLAME — Header / Navigation
+   Two states: `top` (transparent over hero) and `solid` (ivory, sticky).
+   Every state change fades or scales a layer — nothing snaps.
+================================================================== */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  /* ---- Top state metrics (stateful custom properties) ---- */
+  --strip-h: 36px;
+  --h: 124px;
+  --logo-h: 74px;
+  --pad: clamp(1.5rem, 3.6vw, 5rem);
+
+  --ink: var(--ff-white);
+  --accent: var(--ff-copper-light);
+  --rule: var(--ff-copper-light); /* hairline borders */
+  --fill: var(--ff-copper-light); /* CTA hover fill */
+  --accent-ink: var(--ff-chocolate);
+  --strip-ink: rgba(255, 255, 255, 0.66);
+
+  color: var(--ink);
+}
+
+/* ---- Scrolled state: strip collapses, bar and mark contract ---- */
+.solid {
+  --strip-h: 0px;
+  --h: 88px;
+  --logo-h: 52px;
+
+  --ink: var(--ff-espresso);
+  --accent: var(--ff-copper);
+  --rule: var(--ff-copper);
+  --fill: var(--ff-copper-deep);
+  --accent-ink: var(--ff-cream);
+  --strip-ink: rgba(43, 27, 24, 0.52);
+}
+
+/* ---- Compact metrics below the desktop breakpoint ---- */
+@media (max-width: 1023px) {
+  .header {
+    --strip-h: 0px;
+    --h: 82px;
+    --logo-h: 54px;
+  }
+  .solid {
+    --h: 72px;
+    --logo-h: 46px;
+  }
+}
+
+/* --- Layer 1: the ivory surface that fades in on scroll ---------- */
+.surface {
+  position: absolute;
+  inset: 0;
+  background: var(--ff-cream);
+  box-shadow: 0 1px 2px rgba(36, 22, 16, 0.03), 0 10px 34px -20px rgba(36, 22, 16, 0.28);
+  opacity: 0;
+  transition: opacity 420ms var(--ff-ease-soft);
+  pointer-events: none;
+}
+
+/* --- Layer 2: hairline bottom border ---------------------------- */
+.surface::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(184, 122, 80, 0) 0%,
+    rgba(184, 122, 80, 0.28) 16%,
+    rgba(184, 122, 80, 0.28) 84%,
+    rgba(184, 122, 80, 0) 100%
+  );
+}
+
+/* --- Layer 3: soft scrim so cream nav stays legible over video --- */
+.scrim {
+  position: absolute;
+  /* Reaches 120px past the bar so it still supports the nav baseline
+     and lands on nothing — a top vignette, not a band. */
+  inset: 0 0 -120px;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 10, 6, 0.76) 0%,
+    rgba(18, 10, 6, 0.54) 42%,
+    rgba(18, 10, 6, 0) 100%
+  );
+  opacity: 1;
+  transition: opacity 340ms var(--ff-ease-soft);
+  pointer-events: none;
+}
+
+.solid .surface {
+  opacity: 1;
+}
+.solid .scrim {
+  opacity: 0;
+}
+
+/* --- Utility strip ------------------------------------------------ */
+.strip {
+  position: relative;
+  height: var(--strip-h);
+  overflow: hidden;
+  opacity: 1;
+  transition: height 420ms var(--ff-ease), opacity 260ms var(--ff-ease-soft);
+}
+.solid .strip {
+  opacity: 0;
+}
+.strip::after {
+  content: "";
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: 0;
+  height: 1px;
+  background: rgba(227, 172, 131, 0.2);
+}
+
+.stripInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  font-size: 0.625rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--strip-ink);
+  white-space: nowrap;
+}
+
+/* A 3px copper square, turned — the brand's quietest mark */
+.stripDot {
+  width: 3px;
+  height: 3px;
+  margin: 0 1.25rem;
+  background: var(--ff-copper-light);
+  transform: rotate(45deg);
+  opacity: 0.7;
+}
+
+@media (max-width: 1023px) {
+  .strip {
+    display: none;
+  }
+}
+
+/* --- Bar --------------------------------------------------------- */
+.inner {
+  position: relative;
+  height: var(--h);
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  transition: height 420ms var(--ff-ease);
+}
+
+/* --- Logo -------------------------------------------------------- */
+.logoLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+/* /logo-mark.png is the supplied artwork with its transparent padding
+   trimmed off (1218x481, 2.5322:1). Nothing else was altered, so the
+   box below is the mark itself — it aligns flush to the layout grid
+   and centres exactly, with no compensating offsets. */
+.logoImg {
+  display: block;
+  height: var(--logo-h);
+  width: auto;
+  transition: height 420ms var(--ff-ease), opacity 320ms var(--ff-ease-soft);
+}
+/* 0.9 height keeps the two marks the same width through the cross-fade */
+.logoImgDark {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: calc(var(--logo-h) * 0.9);
+  width: auto;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: height 420ms var(--ff-ease), opacity 320ms var(--ff-ease-soft);
+  pointer-events: none;
+}
+.solid .logoImg {
+  opacity: 0;
+}
+.solid .logoImgDark {
+  opacity: 1;
+}
+/* Scope each hover to its own state. Unscoped, `.logoLink:hover .logoImg`
+   (0,3,0) outranks `.solid .logoImg` (0,2,0) and drags the copper mark
+   back over the dark one, showing both at once. */
+.header:not(.solid) .logoLink:hover .logoImg {
+  opacity: 0.82;
+}
+.solid .logoLink:hover .logoImgDark {
+  opacity: 0.82;
+}
+.logoLink:focus-visible {
+  outline-offset: 6px;
+}
+
+/* --- Desktop navigation ------------------------------------------ */
+.nav {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: clamp(2.25rem, 3.8vw, 4.25rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 0.125rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  /* Stateful: white over the hero, espresso once the bar turns ivory */
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 260ms var(--ff-ease-soft);
+}
+
+/* Hairline copper underline, expanding from the centre */
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform 280ms var(--ff-ease);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--accent);
+}
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+}
+.link:focus-visible {
+  outline-offset: 10px;
+}
+
+/* Active page — a permanent, quieter copper rule */
+.active {
+  color: var(--accent);
+}
+.active::after {
+  transform: scaleX(1);
+  opacity: 0.7;
+}
+
+/* --- Wholesale CTA ------------------------------------------------ */
+.ctaWrap {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .ctaWrap {
+    display: block;
+    flex: 0 0 auto;
+  }
+}
+
+.cta {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 1.15rem 2.4rem;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.71875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 300ms var(--ff-ease-soft), border-color 300ms var(--ff-ease-soft),
+    transform 300ms var(--ff-ease);
+}
+
+/* Copper fill, wiping up from the base */
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: var(--fill);
+  transform: translateY(101%);
+  transition: transform 460ms var(--ff-ease);
+}
+
+.cta:hover,
+.cta:focus-visible {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.cta:hover::before,
+.cta:focus-visible::before {
+  transform: translateY(0);
+}
+.cta:focus-visible {
+  outline-offset: 5px;
+}
+
+/* --- Menu toggle (mobile / tablet) -------------------------------- */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -0.625rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color 260ms var(--ff-ease-soft);
+}
+@media (min-width: 1024px) {
+  .toggle {
+    display: none;
+  }
+}
+.toggle:hover {
+  color: var(--accent);
+}
+
+.bars {
+  position: relative;
+  width: 26px;
+  height: 13px;
+}
+.bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 380ms var(--ff-ease), width 380ms var(--ff-ease);
+}
+.bar:nth-child(1) {
+  top: 0;
+}
+.bar:nth-child(2) {
+  top: 12px;
+  width: 68%;
+}
+
+/* Hamburger → close icon */
+.toggleOpen .bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.toggleOpen .bar:nth-child(2) {
+  width: 100%;
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* --- Mobile panel -------------------------------------------------- */
+.panel {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(1.5rem, 7vw, 4rem) 2.5rem;
+  background: var(--ff-cream);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 400ms var(--ff-ease-soft), transform 460ms var(--ff-ease),
+    visibility 0s linear 460ms;
+}
+@media (min-width: 1024px) {
+  .panel {
+    display: none;
+  }
+}
+
+.panelOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 400ms var(--ff-ease-soft), transform 520ms var(--ff-ease),
+    visibility 0s linear 0s;
+}
+
+/* --- Panel bar ------------------------------------------------------ */
+.panelBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--ff-header-h-mobile);
+  margin: 0 calc(clamp(1.5rem, 7vw, 4rem) * -1);
+  padding: 0 clamp(1.5rem, 7vw, 4rem);
+  border-bottom: 1px solid rgba(184, 122, 80, 0.16);
+}
+.panelLogo img {
+  display: block;
+  width: auto;
+  height: 46px;
+}
+.panelClose {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-right: -0.5rem;
+  padding: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--ff-espresso);
+  font-family: inherit;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 240ms var(--ff-ease-soft);
+}
+.panelClose:hover,
+.panelClose:focus-visible {
+  color: var(--ff-copper-deep);
+}
+.closeLabel {
+  line-height: 1;
+}
+/* A drawn cross, not a glyph — it stays crisp at any size */
+.closeMark {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.closeMark::before,
+.closeMark::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+}
+.closeMark::before {
+  transform: rotate(45deg);
+}
+.closeMark::after {
+  transform: rotate(-45deg);
+}
+
+.panelList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3.6vh, 2rem);
+}
+.panelNav {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vh, 3.5rem) 0;
+}
+
+.panelItem {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 420ms var(--ff-ease-soft), transform 520ms var(--ff-ease);
+}
+.panelOpen .panelItem {
+  opacity: 1;
+  transform: translateY(0);
+  /* Subtle stagger — index supplied inline as --i */
+  transition-delay: calc(90ms + var(--i) * 70ms);
+}
+
+.panelLink {
+  display: inline-block;
+  position: relative;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2rem, 8.5vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--ff-chocolate);
+  text-decoration: none;
+  transition: color 280ms var(--ff-ease-soft);
+}
+.panelLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.35rem;
+  height: 1px;
+  background: var(--ff-copper);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 300ms var(--ff-ease);
+}
+.panelLink:hover,
+.panelLink:focus-visible {
+  color: var(--ff-copper-deep);
+}
+.panelLink:hover::after,
+.panelLink:focus-visible::after {
+  transform: scaleX(1);
+}
+.panelActive {
+  color: var(--ff-copper-deep);
+}
+.panelActive::after {
+  transform: scaleX(1);
+  opacity: 0.55;
+}
+
+/* The wholesale line is set apart from the primary navigation */
+.panelDivider {
+  margin-top: clamp(1.5rem, 5vh, 2.25rem);
+  padding-top: clamp(1.75rem, 5vh, 2.5rem);
+  border-top: 1px solid rgba(184, 122, 80, 0.22);
+}
+.panelCta {
+  font-size: clamp(1.375rem, 5.5vw, 1.75rem);
+  color: var(--ff-copper-deep);
+}
+
+.panelFoot {
+  margin-top: auto;
+  padding-top: 2.5rem;
+  font-size: 0.6875rem;
+  font-weight: 300;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(90, 64, 50, 0.62);
+  opacity: 0;
+  transition: opacity 400ms var(--ff-ease-soft);
+}
+.panelOpen .panelFoot {
+  opacity: 1;
+  transition-delay: 460ms;
+}
+
+/* --- Respect the motion preference --------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .header *,
+  .panel,
+  .panel * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 1ms !important;
+  }
+  .panel,
+  .panelItem {
+    transform: none !important;
+  }
+  .cta:hover,
+  .cta:focus-visible {
+    transform: none;
+  }
+}

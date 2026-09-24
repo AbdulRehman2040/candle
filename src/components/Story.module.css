@@ -1,0 +1,351 @@
+/* ==================================================================
+   FONDUE FLAME — "Made for moments worth sharing"
+   Editorial two-column section. The ivory rises out of the hero on a
+   soft curve and settles into chocolate for the section that follows.
+================================================================== */
+
+.section {
+  position: relative;
+  background: #f6f0e7;
+  isolation: isolate;
+  /* Written from JS while the section is in view */
+  --shift: 0px;
+}
+
+/* --- The ivory rises out of the hero on a curve ------------------- */
+.capTop,
+.capBottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+}
+.capTop {
+  top: -1px;
+  transform: translateY(-99%);
+  height: clamp(48px, 6vw, 104px);
+}
+.capBottom {
+  bottom: -1px;
+  height: clamp(56px, 7vw, 120px);
+}
+
+/* --- Background: two soft warm fields and a watermark ------------- */
+.field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fieldSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Grid ---------------------------------------------------------- */
+.inner {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(6rem, 11vw, 10.5rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(7rem, 12vw, 11.5rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3.5rem, 6vw, 5rem);
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: minmax(0, 43fr) minmax(0, 52fr);
+    gap: clamp(3rem, 6vw, 7rem);
+    align-items: start;
+  }
+}
+
+/* --- Entrance ------------------------------------------------------ */
+.rise {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 760ms var(--ff-ease-soft), transform 900ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Copy ---------------------------------------------------------- */
+.copy {
+  padding-top: clamp(0rem, 2vw, 2.5rem);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ff-copper-deep);
+}
+.eyebrowRule {
+  flex: 0 1 108px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(184, 122, 80, 0.55), rgba(184, 122, 80, 0));
+}
+
+.headline {
+  margin: clamp(1.5rem, 2.4vw, 2.25rem) 0 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.625rem, 5vw, 4.875rem);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+  color: #2b1b18;
+}
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.lineInner {
+  display: block;
+  transform: translateY(106%);
+  transition: transform 950ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .lineInner {
+  transform: translateY(0);
+}
+
+.body {
+  margin: clamp(1.75rem, 2.6vw, 2.5rem) 0 0;
+  max-width: 34ch;
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(58, 38, 28, 0.94);
+}
+
+/* --- The 02–03 detail, set editorially rather than in a card ------- */
+.detail {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 2.6vw, 2.5rem);
+  margin: clamp(2.75rem, 4.5vw, 4rem) 0 0;
+}
+.count {
+  flex: 0 0 auto;
+}
+.countNum {
+  display: block;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.375rem, 3.2vw, 3rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  color: var(--ff-copper-deep);
+}
+.countLabel {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(58, 38, 28, 0.82);
+}
+.detailRule {
+  flex: 0 0 1px;
+  align-self: center;
+  height: clamp(3rem, 5vw, 3.75rem);
+  background: rgba(154, 95, 55, 0.45);
+}
+.detailText {
+  margin: 0;
+  max-width: 24ch;
+  font-size: clamp(0.9375rem, 1vw, 1rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(58, 38, 28, 0.86);
+}
+
+/* --- Text CTA ------------------------------------------------------- */
+.ctaRow {
+  margin-top: clamp(2.75rem, 4.5vw, 3.75rem);
+}
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 0 0.9rem;
+  color: #2b1b18;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 250ms var(--ff-ease-soft);
+}
+/* Resting hairline, plus a copper one that expands over it */
+.cta::before,
+.cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+}
+.cta::before {
+  background: rgba(160, 126, 100, 0.4);
+}
+.cta::after {
+  background: var(--ff-copper);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 250ms var(--ff-ease);
+}
+.cta:hover,
+.cta:focus-visible {
+  color: var(--ff-copper-deep);
+}
+.cta:hover::after,
+.cta:focus-visible::after {
+  transform: scaleX(1);
+}
+.ctaArrow {
+  display: inline-block;
+  color: var(--ff-copper);
+  transition: transform 250ms var(--ff-ease);
+}
+.cta:hover .ctaArrow,
+.cta:focus-visible .ctaArrow {
+  transform: translateX(6px);
+}
+.cta:focus-visible {
+  outline-offset: 10px;
+}
+
+/* --- Product visual -------------------------------------------------- */
+.visual {
+  position: relative;
+}
+@media (min-width: 1024px) {
+  .visual {
+    /* Deliberately asymmetric: the picture drops below the text column */
+    margin-top: clamp(1rem, 3vw, 3rem);
+    margin-bottom: clamp(-6rem, -5vw, -3rem);
+  }
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #e9dfd0;
+  /* Revealed by unclipping from the base upward */
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1000ms var(--ff-ease);
+  transition-delay: var(--d, 0ms);
+}
+.ready .frame {
+  clip-path: inset(0 0 0 0);
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Very subtle parallax across the section */
+  transform: translate3d(0, var(--shift), 0) scale(1.06);
+  will-change: transform;
+}
+
+/* Caption sits on the image, on a soft foot so it always reads */
+.caption {
+  position: absolute;
+  left: clamp(1.25rem, 2.2vw, 2.25rem);
+  right: clamp(1.25rem, 2.2vw, 2.25rem);
+  bottom: clamp(1.1rem, 2vw, 1.75rem);
+  margin: 0;
+  z-index: 1;
+  font-size: clamp(0.5625rem, 0.72vw, 0.6875rem);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(251, 247, 241, 0.92);
+  text-align: right;
+  opacity: 0;
+  transition: opacity 700ms var(--ff-ease-soft);
+  transition-delay: 1150ms;
+}
+.ready .caption {
+  opacity: 1;
+}
+.captionFoot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 34%;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(28, 16, 10, 0.62) 0%,
+    rgba(28, 16, 10, 0.26) 46%,
+    rgba(28, 16, 10, 0) 100%
+  );
+  pointer-events: none;
+}
+
+/* --- Mobile ---------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .body {
+    max-width: 44ch;
+  }
+  .detailText {
+    max-width: 28ch;
+  }
+}
+
+@media (max-width: 560px) {
+  .detail {
+    gap: 1.25rem;
+  }
+  .detailText {
+    font-size: 0.9375rem;
+  }
+}
+
+/* --- Motion preference ------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .section,
+  .section * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .rise,
+  .lineInner {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .frame {
+    clip-path: none !important;
+  }
+  .photo {
+    transform: scale(1.06) !important;
+  }
+  .caption {
+    opacity: 1 !important;
+  }
+}
