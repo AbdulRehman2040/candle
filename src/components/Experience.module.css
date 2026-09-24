@@ -50,6 +50,30 @@
   color: var(--ff-white);
 }
 
+/* Centred over the four stages on desktop; left-aligned below, where a
+   centred heading would float away from the stacked content. */
+@media (min-width: 1024px) {
+  .head {
+    max-width: 48rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .eyebrow {
+    justify-content: center;
+  }
+  /* Mirror the rule so a centred label stays balanced */
+  .eyebrow::before {
+    content: "";
+    flex: 0 1 96px;
+    height: 1px;
+    background: linear-gradient(
+      270deg,
+      rgba(227, 172, 131, 0.5),
+      rgba(227, 172, 131, 0)
+    );
+  }
+}
+
 /* --- The four stages, side by side ----------------------------------- */
 .steps {
   list-style: none;

@@ -64,7 +64,20 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <p className={styles.copyright}>&copy; {year} Fondue Flame Ltd</p>
+          <div className={styles.legal}>
+            <p className={styles.copyright}>&copy; {year} Fondue Flame Ltd</p>
+            <p className={styles.credit}>
+              Designed by{" "}
+              <a
+                href="https://websitelift.co.uk"
+                target="_blank"
+                rel="noreferrer noopener"
+                className={styles.creditLink}
+              >
+                WebsiteLift
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
