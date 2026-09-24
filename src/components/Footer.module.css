@@ -11,19 +11,6 @@
   overflow: hidden;
 }
 
-/* The chocolate rises over whatever section came before */
-.cap {
-  position: absolute;
-  left: 0;
-  top: -1px;
-  width: 100%;
-  height: clamp(48px, 6vw, 104px);
-  display: block;
-  z-index: 1;
-  transform: translateY(-99%);
-  pointer-events: none;
-}
-
 .inner {
   position: relative;
   max-width: 1400px;

@@ -39,18 +39,6 @@ export default function Footer() {
       ref={footerRef}
       className={`${styles.footer} ${ready ? styles.ready : ""}`}
     >
-      <svg
-        className={styles.cap}
-        viewBox="0 0 1440 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M0,100 L0,42 C250,6 540,2 840,28 C1090,50 1290,64 1440,58 L1440,100 Z"
-          fill="#241511"
-        />
-      </svg>
-
       <div className={styles.inner}>
         <div className={`${styles.bar} ${styles.rise}`} style={{ "--d": "120ms" }}>
           <Link href="/" aria-label="Fondue Flame, home">

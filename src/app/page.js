@@ -37,24 +37,6 @@ export default function Home() {
       <ShareMoment />
       <Wholesale />
 
-      {/* Wholesale back up into ivory for WHERE TO BUY — not built yet */}
-      <div
-        aria-hidden="true"
-        className="relative h-[clamp(56px,7vw,124px)] w-full bg-[#251713]"
-      >
-        <svg
-          className="absolute inset-0 block h-full w-full"
-          viewBox="0 0 1440 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,120 L1440,120 L1440,30 C1160,70 880,86 580,62 C350,44 160,22 0,12 Z"
-            fill="#f5efe6"
-          />
-        </svg>
-      </div>
-
-      <section className="h-[34vh] bg-[#f5efe6]" />
     </>
   );
 }
