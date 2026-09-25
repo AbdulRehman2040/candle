@@ -41,8 +41,9 @@ export default function Footer() {
       className={`${styles.footer} ${ready ? styles.ready : ""}`}
     >
       <div className={styles.inner}>
-        <div className={`${styles.bar} ${styles.rise}`} style={{ "--d": "120ms" }}>
-          <Link href="/" aria-label="Fondue Flame, home">
+        {/* Row one: the mark and the links, on one baseline */}
+        <div className={`${styles.top} ${styles.rise}`} style={{ "--d": "120ms" }}>
+          <Link href="/" className={styles.brand} aria-label="Fondue Flame, home">
             <Image
               src="/logo-mark.png"
               alt="Fondue Flame"
@@ -64,21 +65,22 @@ export default function Footer() {
               ))}
             </ul>
           </nav>
+        </div>
 
-          <div className={styles.legal}>
-            <p className={styles.copyright}>&copy; {year} Fondue Flame</p>
-            <p className={styles.credit}>
-              Designed by{" "}
-              <a
-                href="https://websitelift.co.uk"
-                target="_blank"
-                rel="noreferrer noopener"
-                className={styles.creditLink}
-              >
-                WebsiteLift
-              </a>
-            </p>
-          </div>
+        {/* Row two: legal, split to the edges */}
+        <div className={`${styles.bottom} ${styles.rise}`} style={{ "--d": "220ms" }}>
+          <p className={styles.copyright}>&copy; {year} Fondue Flame</p>
+          <p className={styles.credit}>
+            Designed by{" "}
+            <a
+              href="https://websitelift.co.uk"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={styles.creditLink}
+            >
+              WebsiteLift
+            </a>
+          </p>
         </div>
       </div>
     </footer>

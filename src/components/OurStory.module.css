@@ -16,8 +16,8 @@
   position: relative;
   max-width: 1380px;
   margin: 0 auto;
-  padding: clamp(6.5rem, 12vw, 11.5rem) clamp(1.5rem, 3.6vw, 5rem)
-    clamp(8rem, 14vw, 13rem);
+  padding: clamp(6rem, 10vw, 9rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(6rem, 10vw, 9rem);
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(3rem, 6vw, 4.5rem);
@@ -25,9 +25,11 @@
 
 @media (min-width: 1024px) {
   .inner {
-    grid-template-columns: minmax(0, 54fr) minmax(0, 40fr);
-    gap: clamp(3.5rem, 7vw, 8rem);
-    align-items: center;
+    grid-template-columns: minmax(0, 52fr) minmax(0, 44fr);
+    gap: clamp(3.5rem, 6vw, 6.5rem);
+    /* Both columns start on the same line — centring them staggered the
+       picture against the heading. */
+    align-items: start;
   }
 }
 
@@ -83,34 +85,6 @@
   /* Almost imperceptible drift inside the frame */
   transform: translate3d(0, var(--drift), 0) scale(1.05);
   will-change: transform;
-}
-
-.caption {
-  position: relative;
-  margin: clamp(1.25rem, 2vw, 1.75rem) 0 0;
-  padding-top: clamp(1rem, 1.6vw, 1.35rem);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  line-height: 1.9;
-  color: rgba(42, 24, 19, 0.62);
-  opacity: 0;
-  transition: opacity 700ms var(--ff-ease-soft);
-  transition-delay: 900ms;
-}
-.caption::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 34px;
-  height: 1px;
-  background: #b9673e;
-  opacity: 0.55;
-}
-.ready .caption {
-  opacity: 1;
 }
 
 /* --- Copy ------------------------------------------------------------ */
@@ -205,9 +179,9 @@
   font-family: var(--font-cormorant), Georgia, serif;
   font-style: italic;
   font-size: clamp(1.25rem, 1.85vw, 1.75rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.5;
-  color: rgba(42, 24, 19, 0.7);
+  color: rgba(42, 24, 19, 0.78);
   transition: color 900ms var(--ff-ease-soft);
 }
 .quoteLit .quoteText {
@@ -222,9 +196,9 @@
   margin: 0;
   max-width: 38ch;
   font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.8;
-  color: rgba(45, 28, 21, 0.96);
+  color: #32200f;
 }
 .para + .para {
   margin-top: clamp(1.25rem, 2vw, 1.75rem);
@@ -236,10 +210,10 @@
   border-top: 1px solid rgba(185, 103, 62, 0.22);
   max-width: 36ch;
   font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
-  font-weight: 400;
+  font-weight: 500;
   font-style: italic;
   line-height: 1.75;
-  color: rgba(42, 24, 19, 0.9);
+  color: #2a1813;
 }
 
 /* --- CTA ---------------------------------------------------------------- */
@@ -352,8 +326,7 @@
     transition-duration: 1ms !important;
     transition-delay: 0ms !important;
   }
-  .rise,
-  .caption {
+  .rise {
     opacity: 1 !important;
     transform: none !important;
   }

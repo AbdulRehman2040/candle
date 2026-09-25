@@ -30,7 +30,7 @@
   max-width: 1440px;
   margin: 0 auto;
   padding: clamp(6.5rem, 12vw, 11.5rem) clamp(1.5rem, 3.6vw, 5rem)
-    clamp(7.5rem, 13vw, 12rem);
+    clamp(5rem, 8vw, 7rem);
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(3rem, 6vw, 4rem);

@@ -16,8 +16,8 @@
   position: relative;
   max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(4rem, 7vw, 6rem) clamp(1.5rem, 3.6vw, 5rem)
-    clamp(2.5rem, 4vw, 3.5rem);
+  padding: clamp(3rem, 4.5vw, 4rem) clamp(1.5rem, 3.6vw, 5rem)
+    clamp(2rem, 3vw, 2.5rem);
 }
 
 /* --- Entrance -------------------------------------------------------- */
@@ -78,62 +78,56 @@
   transform: translateX(4px);
 }
 
-/* --- One quiet row: mark, links, copyright ----------------------------- */
-.bar {
-  padding-top: clamp(0.5rem, 1vw, 1rem);
+/* --- Row one: mark and links --------------------------------------- */
+.top {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1.75rem 3rem;
+  gap: 1.5rem clamp(2rem, 4vw, 4rem);
 }
-
+.brand {
+  flex: 0 0 auto;
+  display: block;
+}
 .brandLogo {
   display: block;
   width: auto;
-  height: clamp(62px, 6vw, 86px);
+  height: clamp(58px, 5.4vw, 78px);
 }
-
 .nav {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem 2.5rem;
+  justify-content: flex-end;
+  gap: 0.875rem clamp(1.5rem, 2.6vw, 2.5rem);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.legal {
+/* --- Row two: legal, split to the edges ----------------------------- */
+.bottom {
+  margin-top: clamp(2rem, 3.2vw, 2.75rem);
+  padding-top: clamp(1.25rem, 2vw, 1.625rem);
+  border-top: 1px solid rgba(200, 121, 80, 0.2);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1.25rem;
+  justify-content: space-between;
+  gap: 0.625rem 2rem;
 }
-/* A turned copper square between the two, so they read as one line */
-.credit::before {
-  content: "";
-  display: inline-block;
-  width: 3px;
-  height: 3px;
-  margin-right: 1.25rem;
-  vertical-align: middle;
-  background: rgba(227, 172, 131, 0.55);
-  transform: rotate(45deg);
-}
-.copyright {
-  margin: 0;
-  font-size: 0.6875rem;
-  font-weight: 400;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.58);
-}
+.copyright,
 .credit {
   margin: 0;
   font-size: 0.6875rem;
   font-weight: 400;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+.copyright {
+  color: rgba(255, 255, 255, 0.58);
+}
+.credit {
   color: rgba(255, 255, 255, 0.46);
 }
 .creditLink {
@@ -154,7 +148,7 @@
 
 /* --- Mobile -------------------------------------------------------------- */
 @media (max-width: 767px) {
-  .bar {
+  .top {
     flex-direction: column;
     align-items: flex-start;
     gap: 2rem;
@@ -162,16 +156,13 @@
   .nav {
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
     gap: 1.125rem;
   }
-  /* Stacked on phones, where one line would wrap awkwardly */
-  .legal {
+  .bottom {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.625rem;
-  }
-  .credit::before {
-    display: none;
+    gap: 0.75rem;
   }
 }
 

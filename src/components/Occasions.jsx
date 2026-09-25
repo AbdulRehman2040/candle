@@ -10,28 +10,28 @@ const ITEMS = [
     name: "Celebrations & Weddings",
     note: "A warm centrepiece down a long table, from receptions to anniversaries.",
     src: "/occasions/celebrations.jpg",
-    alt: "An elegant wedding table set with candles and flowers",
+    alt: "Fondue Flame dishes down a long wedding table with white roses and tealights"
   },
   {
     num: "02",
     name: "Dinner Parties",
     note: "Something to gather around once the plates are cleared.",
     src: "/occasions/dinners.jpg",
-    alt: "Friends sharing a fondue dinner by a fireplace",
+    alt: "Two Fondue Flame dishes on a candlelit dinner table with strawberries and chocolate",
   },
   {
     num: "03",
-    name: "Birthdays & Gatherings",
-    note: "A shared centrepiece that gets everyone around the table talking.",
+    name: "Birthdays",
+    note: "A centrepiece that gets everyone around the table, cake and all.",
     src: "/occasions/hen.jpg",
-    alt: "Friends laughing around a candlelit table set for a celebration",
+    alt: "A bright birthday table with a cake, paper garland and Fondue Flame dishes",
   },
   {
     num: "04",
     name: "Christmas",
     note: "Candlelight, chocolate and the slow part of the evening.",
     src: "/occasions/christmas.jpg",
-    alt: "A Christmas table dressed with pine, candles and neutral linen",
+    alt: "A Christmas table with pine, copper baubles and Fondue Flame dishes",
   },
   {
     num: "05",
@@ -45,11 +45,12 @@ const ITEMS = [
     name: "Quiet Evenings In",
     note: "Two people, a little chocolate and no rush.",
     src: "/occasions/evenings.jpg",
-    alt: "Two glasses and candles beside a lit fireplace on a quiet evening",
+    alt: "A Fondue Flame on a side table beside a sofa, two hands reaching in",
   },
 ];
 
 const MORE = [
+  "Hen parties",
   "Corporate events",
   "Valentine's",
   "Baby showers",

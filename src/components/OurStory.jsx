@@ -124,11 +124,6 @@ export default function OurStory() {
               className={styles.photo}
             />
           </div>
-          <p className={styles.caption}>
-            Born from candlelight.
-            <br />
-            Created for connection.
-          </p>
         </div>
 
         <div className={styles.copy}>
@@ -176,10 +171,7 @@ export default function OurStory() {
             ))}
           </div>
 
-          <p className={`${styles.mission} ${styles.rise}`} style={{ "--d": "920ms" }}>
-            Today, our mission remains the same: helping people connect through
-            simple, meaningful experiences.
-          </p>
+          
 
           <div className={`${styles.ctaRow} ${styles.rise}`} style={{ "--d": "1050ms" }}>
             <Link href="/#our-story" className={styles.cta}>
