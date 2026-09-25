@@ -17,7 +17,7 @@ export default function Home() {
           between these two ends up muddy grey through its middle. */}
       <div
         aria-hidden="true"
-        className="relative h-[clamp(56px,7vw,124px)] w-full bg-[#241511]"
+        className="relative h-[clamp(44px,5vw,86px)] w-full bg-[#241511]"
       >
         <svg
           className="absolute inset-0 block h-full w-full"
@@ -41,7 +41,7 @@ export default function Home() {
       {/* Ivory back down into chocolate for the wholesale section */}
       <div
         aria-hidden="true"
-        className="relative h-[clamp(56px,7vw,124px)] w-full bg-[#f6f0e7]"
+        className="relative h-[clamp(44px,5vw,86px)] w-full bg-[#f6f0e7]"
       >
         <svg
           className="absolute inset-0 block h-full w-full"
