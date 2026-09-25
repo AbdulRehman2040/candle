@@ -93,7 +93,7 @@ export default function Experience() {
 
           <h2 id="experience-heading" className={styles.headline}>
             Light. Melt.
-            <br />
+            
             Dip. Share.
           </h2>
         </div>

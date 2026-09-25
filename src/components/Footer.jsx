@@ -9,6 +9,7 @@ import styles from "./Footer.module.css";
 const LINKS = [
   { label: "The Experience", href: "/#experience" },
   { label: "Our Story", href: "/#our-story" },
+  { label: "Occasions", href: "/#occasions" },
   { label: "Wholesale", href: "/wholesale" },
   { label: "Enquiries", href: "/wholesale#enquiry" },
 ];
@@ -65,7 +66,7 @@ export default function Footer() {
           </nav>
 
           <div className={styles.legal}>
-            <p className={styles.copyright}>&copy; {year} Fondue Flame Ltd</p>
+            <p className={styles.copyright}>&copy; {year} Fondue Flame</p>
             <p className={styles.credit}>
               Designed by{" "}
               <a

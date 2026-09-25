@@ -3,6 +3,7 @@ import Story from "@/components/Story";
 import Experience from "@/components/Experience";
 import OurStory from "@/components/OurStory";
 import ShareMoment from "@/components/ShareMoment";
+import Occasions from "@/components/Occasions";
 import Wholesale from "@/components/Wholesale";
 
 export default function Home() {
@@ -35,6 +36,25 @@ export default function Home() {
       {/* Experience into opportunity: the lifestyle frame already fades to
           the wholesale ground colour, so these two meet with no seam. */}
       <ShareMoment />
+      <Occasions />
+
+      {/* Ivory back down into chocolate for the wholesale section */}
+      <div
+        aria-hidden="true"
+        className="relative h-[clamp(56px,7vw,124px)] w-full bg-[#f6f0e7]"
+      >
+        <svg
+          className="absolute inset-0 block h-full w-full"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,120 L1440,120 L1440,34 C1170,72 890,88 590,66 C355,48 160,24 0,10 Z"
+            fill="#251713"
+          />
+        </svg>
+      </div>
+
       <Wholesale />
 
     </>

@@ -99,7 +99,6 @@ export default function ShareMoment() {
       </div>
 
       <div className={styles.wash} aria-hidden="true" />
-      <div className={styles.washFoot} aria-hidden="true" />
 
       <div className={styles.inner}>
         <div className={styles.copy}>

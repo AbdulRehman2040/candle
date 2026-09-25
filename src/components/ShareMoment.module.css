@@ -64,24 +64,6 @@
   );
 }
 
-/* Eases into the section that follows without darkening the frame */
-.washFoot {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 26%;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(
-    to top,
-    #251713 0%,
-    rgba(37, 23, 19, 0.7) 26%,
-    rgba(37, 23, 19, 0.3) 58%,
-    rgba(37, 23, 19, 0) 100%
-  );
-}
-
 /* --- Copy ----------------------------------------------------------- */
 .inner {
   position: relative;
@@ -277,9 +259,6 @@
       rgba(37, 23, 19, 0.06) 64%,
       rgba(37, 23, 19, 0) 78%
     );
-  }
-  .washFoot {
-    height: 20%;
   }
   .inner {
     padding-top: clamp(7.5rem, 22vw, 9.5rem);

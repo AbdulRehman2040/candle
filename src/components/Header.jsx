@@ -8,6 +8,7 @@ import styles from "./Header.module.css";
 
 const NAV_LINKS = [
   { label: "The Experience", href: "/#experience" },
+  { label: "Occasions", href: "/#occasions" },
   { label: "Our Story", href: "/#our-story" },
   { label: "Wholesale", href: "/wholesale" },
 ];
