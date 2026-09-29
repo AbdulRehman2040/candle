@@ -79,7 +79,7 @@ export default function LoginForm() {
         </button>
 
         <p className={styles.hint}>
-          Accounts are created in Supabase → Authentication → Users.
+          SECURE LOGIN 
         </p>
       </form>
     </div>
