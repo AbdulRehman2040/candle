@@ -33,7 +33,7 @@
   inset: 0;
   z-index: -2;
   transform: translate3d(0, var(--media-y), 0) scale(var(--media-scale));
-  transform-origin: 62% 50%;
+  transform-origin: 56% 50%;
   will-change: transform;
   opacity: 0;
   transition: opacity 1000ms var(--ff-ease-soft);
@@ -49,8 +49,28 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* The bowl sits at ~64% across the frame — keep it when cropping */
-  object-position: 64% 50%;
+  /* Tablet framing: biased low so the base of the bowl stays in shot. */
+  object-position: 8% 82%;
+}
+
+/* Biased to the bottom of the frame so the whole bowl and its wordmark
+   stay in shot. At 1024 there is no room to zoom — the bowl already fills
+   the width — so the slide and the tighten start at 1280. */
+@media (min-width: 1024px) {
+  .video,
+  .poster {
+    object-position: 8% 92%;
+  }
+}
+
+/* Composed on the pot, not the hand: slid right and tightened in. The
+   fingers and arm run off the top-right — deliberately, they are not the
+   subject. */
+@media (min-width: 1280px) {
+  .video,
+  .poster {
+    transform: scale(1.15) translateX(9%) translateY(-6%);
+  }
 }
 
 /* --- Cinematic grade ----------------------------------------------- */
@@ -63,11 +83,12 @@
      side of the frame, so the video plays ungraded. */
   background: linear-gradient(
     100deg,
-    rgba(46, 26, 16, 0.91) 0%,
-    rgba(46, 26, 16, 0.84) 22%,
-    rgba(46, 26, 16, 0.62) 40%,
-    rgba(46, 26, 16, 0.22) 56%,
-    rgba(46, 26, 16, 0) 70%
+    rgba(46, 26, 16, 0.93) 0%,
+    rgba(46, 26, 16, 0.88) 16%,
+    rgba(46, 26, 16, 0.72) 26%,
+    rgba(46, 26, 16, 0.38) 34%,
+    rgba(46, 26, 16, 0.1) 42%,
+    rgba(46, 26, 16, 0) 50%
   );
   pointer-events: none;
 }
@@ -87,6 +108,19 @@
   transform: translate3d(0, var(--copy-y), 0);
   opacity: var(--copy-o);
   will-change: transform, opacity;
+}
+
+/* The bowl begins ~34% across the frame. The copy stops short of it so the
+   product is never sat behind the type. */
+@media (min-width: 1024px) {
+  .copy {
+    max-width: min(32%, 35rem);
+  }
+}
+@media (min-width: 1600px) {
+  .copy {
+    max-width: min(30%, 35rem);
+  }
 }
 
 /* Every entrance element starts hidden and is released by .ready */
@@ -114,7 +148,7 @@
 .headline {
   margin: 1.75rem 0 0;
   font-family: var(--font-cormorant), Georgia, serif;
-  font-size: clamp(3rem, 6.2vw, 6.25rem);
+  font-size: clamp(3rem, 5.4vw, 5.5rem);
   font-weight: 300;
   line-height: 0.99;
   letter-spacing: -0.012em;
@@ -338,28 +372,38 @@
     align-items: flex-end;
     min-height: 92svh;
   }
-  /* Lift the frame so the pot and strawberry sit in the upper half,
-     clear of the copy rather than behind it. */
+  /* Full-bleed cannot work here. A 16:9 frame cover-fitted into a tall
+     phone viewport shows barely a quarter of its width, which cropped
+     straight past the pot and left only the hand and the box on screen.
+     So the film takes the top of the hero at its own shape and the copy
+     sits on solid ground beneath it — the whole product stays in shot.
+     46% is the tallest the film can be before the base of the pot runs
+     into the eyebrow line. */
   .media {
-    transform-origin: 69% 42%;
+    inset: 0 0 auto 0;
+    height: 46%;
+    /* Scale only. A translate would drag the film off the top edge and
+       expose the ground behind it. */
+    transform: scale(var(--media-scale));
+    transform-origin: 50% 46%;
   }
-  /* A 16:9 frame in a portrait box can only be cropped sideways, so the
-     dipping action is pulled up and in with a transform instead. */
   .video,
   .poster {
-    object-position: 69% 50%;
-    transform: scale(1.2) translateY(-7.5%);
+    object-position: 60% 50%;
+    transform: none;
   }
-  /* The lower half becomes a near-solid ground for the type */
+  /* Solid under the copy, dissolving up into the film so the two meet
+     without a seam */
   .wash {
     background: linear-gradient(
       to top,
-      rgba(38, 21, 12, 0.97) 0%,
-      rgba(38, 21, 12, 0.95) 34%,
-      rgba(38, 21, 12, 0.78) 50%,
-      rgba(38, 21, 12, 0.34) 68%,
-      rgba(38, 21, 12, 0.06) 84%,
-      rgba(38, 21, 12, 0) 94%
+      rgba(38, 21, 12, 1) 0%,
+      rgba(38, 21, 12, 1) 40%,
+      rgba(38, 21, 12, 0.88) 47%,
+      rgba(38, 21, 12, 0.48) 56%,
+      rgba(38, 21, 12, 0.14) 68%,
+      rgba(38, 21, 12, 0.03) 82%,
+      rgba(38, 21, 12, 0) 100%
     );
   }
   .inner {

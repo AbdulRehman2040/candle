@@ -1,7 +1,7 @@
 /* ==================================================================
    FONDUE FLAME — "Made for moments worth sharing"
-   Editorial two-column section. The ivory rises out of the hero on a
-   soft curve and settles into chocolate for the section that follows.
+   Editorial two-column section. The ivory meets the hero square, and
+   settles into chocolate for the section that follows.
 ================================================================== */
 
 .section {
@@ -12,8 +12,7 @@
   --shift: 0px;
 }
 
-/* --- The ivory rises out of the hero on a curve ------------------- */
-.capTop,
+/* --- Settles into chocolate for the section that follows ---------- */
 .capBottom {
   position: absolute;
   left: 0;
@@ -21,13 +20,6 @@
   display: block;
   z-index: 1;
   pointer-events: none;
-}
-.capTop {
-  top: -1px;
-  transform: translateY(-99%);
-  height: clamp(48px, 6vw, 104px);
-}
-.capBottom {
   bottom: -1px;
   height: clamp(56px, 7vw, 120px);
 }

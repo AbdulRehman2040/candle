@@ -82,19 +82,6 @@ export default function Story() {
       className={`${styles.section} ${ready ? styles.ready : ""}`}
       aria-labelledby="story-heading"
     >
-      {/* The ivory rises out of the hero on a soft curve */}
-      <svg
-        className={styles.capTop}
-        viewBox="0 0 1440 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M0,100 L0,40 C240,2 520,0 820,26 C1080,48 1280,64 1440,58 L1440,100 Z"
-          fill="#f6f0e7"
-        />
-      </svg>
-
       {/* Background: two warm fields and a set of faint rings echoing the
           dish and the rings that form on melting chocolate. */}
       <div className={styles.field} aria-hidden="true">
