@@ -2,11 +2,18 @@ import Hero from "@/components/Hero";
 import Story from "@/components/Story";
 import Experience from "@/components/Experience";
 import OurStory from "@/components/OurStory";
+import WhereToBuy from "@/components/WhereToBuy";
 import ShareMoment from "@/components/ShareMoment";
 import Occasions from "@/components/Occasions";
 import Wholesale from "@/components/Wholesale";
+import { getStockists } from "@/lib/stockists";
 
-export default function Home() {
+/* Picks up stockist changes made in the dashboard within a minute. */
+export const revalidate = 60;
+
+export default async function Home() {
+  const { regions, fromDatabase } = await getStockists();
+
   return (
     <>
       <Hero />
@@ -32,6 +39,7 @@ export default function Home() {
       </div>
 
       <OurStory />
+      <WhereToBuy regions={regions} placeholder={!fromDatabase} />
 
       {/* Experience into opportunity: the lifestyle frame already fades to
           the wholesale ground colour, so these two meet with no seam. */}

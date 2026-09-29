@@ -1,6 +1,5 @@
 import { Cormorant_Garamond, Jost } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -33,11 +32,11 @@ export default function RootLayout({ children }) {
         <a href="#main" className="ff-skip">
           Skip to content
         </a>
-        <Header />
+        <SiteHeader />
         <main id="main" className="flex-1">
           {children}
         </main>
-        <Footer />
+        <SiteFooter />
       </body>
     </html>
   );

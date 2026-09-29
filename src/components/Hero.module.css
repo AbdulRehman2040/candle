@@ -370,7 +370,9 @@
 @media (max-width: 767px) {
   .hero {
     align-items: flex-end;
-    min-height: 92svh;
+    /* Full height on mobile: the film needs the room, and the copy is
+       pinned to the bottom so nothing is pushed off screen. */
+    min-height: 100svh;
   }
   /* Full-bleed cannot work here. A 16:9 frame cover-fitted into a tall
      phone viewport shows barely a quarter of its width, which cropped
@@ -381,7 +383,25 @@
      into the eyebrow line. */
   .media {
     inset: 0 0 auto 0;
-    height: 46%;
+    height: 62%;
+    /* The source has only 3% of frame below the base of the pot, so the
+       film's bottom edge always lands right under it. A hard cut there
+       reads as a pasted rectangle, so the last tenth is masked away and
+       the pot settles into the ground instead of being sliced off. */
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 94%,
+      rgba(0, 0, 0, 0.45) 97.5%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 94%,
+      rgba(0, 0, 0, 0.45) 97.5%,
+      transparent 100%
+    );
     /* Scale only. A translate would drag the film off the top edge and
        expose the ground behind it. */
     transform: scale(var(--media-scale));
@@ -395,20 +415,22 @@
   /* Solid under the copy, dissolving up into the film so the two meet
      without a seam */
   .wash {
+    /* Stops below the pot. The film's own mask already dissolves its
+       bottom edge into the ground, so the wash no longer has to be solid
+       up there — which is what was burying the pot's wordmark. */
     background: linear-gradient(
       to top,
       rgba(38, 21, 12, 1) 0%,
-      rgba(38, 21, 12, 1) 40%,
-      rgba(38, 21, 12, 0.88) 47%,
-      rgba(38, 21, 12, 0.48) 56%,
-      rgba(38, 21, 12, 0.14) 68%,
-      rgba(38, 21, 12, 0.03) 82%,
-      rgba(38, 21, 12, 0) 100%
+      rgba(38, 21, 12, 1) 34%,
+      rgba(38, 21, 12, 0.6) 38%,
+      rgba(38, 21, 12, 0.25) 41%,
+      rgba(38, 21, 12, 0.06) 44%,
+      rgba(38, 21, 12, 0) 50%
     );
   }
   .inner {
     padding-top: 7rem;
-    padding-bottom: 3rem;
+    padding-bottom: 1.75rem;
   }
   .copy {
     max-width: none;
@@ -419,30 +441,37 @@
     letter-spacing: 0.26em;
   }
   .headline {
-    margin-top: 1rem;
-    font-size: clamp(2.5rem, 11.5vw, 3.25rem);
+    margin-top: 0.75rem;
+    font-size: clamp(2.125rem, 10vw, 2.75rem);
   }
   .lead {
-    margin-top: 1.25rem;
+    margin-top: 0.875rem;
     max-width: 34ch;
-    font-size: 1rem;
+    font-size: 0.9375rem;
     font-weight: 400;
     line-height: 1.7;
     color: rgba(255, 255, 255, 0.88);
   }
   .meta {
-    margin-top: 1.25rem;
+    margin-top: 0.875rem;
     font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.8);
   }
   .actions {
-    margin-top: 1.875rem;
-    gap: 0.75rem;
+    margin-top: 1.25rem;
+    gap: 0.625rem;
   }
+  /* Side by side rather than stacked — stacking cost 60px of height the
+     film needs, and both still clear the 44px tap-target minimum. */
   .ctaPrimary,
   .ctaGhost {
-    flex: 1 1 100%;
-    padding: 1.05rem 1.5rem;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 1.05rem 0.75rem;
+    text-align: center;
+    justify-content: center;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
   }
   .cue {
     display: none;

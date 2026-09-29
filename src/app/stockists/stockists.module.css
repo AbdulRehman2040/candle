@@ -1,0 +1,77 @@
+/* ==================================================================
+   FONDUE FLAME — Where to Buy page
+   A directory. Same calm intro as Wholesale, then straight to the list.
+================================================================== */
+
+.page {
+  background: #f6f0e7;
+  color: #2b1b18;
+  padding-bottom: clamp(5rem, 9vw, 8rem);
+}
+
+/* --- Intro ---------------------------------------------------------- */
+.intro {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(9rem, 13vw, 12.5rem) clamp(1.375rem, 3.6vw, 5rem)
+    clamp(3rem, 5vw, 4.5rem);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ff-copper-deep);
+  animation: stIn 600ms var(--ff-ease) both;
+}
+
+.title {
+  margin: clamp(1.25rem, 2.2vw, 1.875rem) auto 0;
+  max-width: 18ch;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.625rem, 5vw, 4.75rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.016em;
+  color: #2b1b18;
+  animation: stIn 700ms var(--ff-ease) 90ms both;
+}
+
+.lead {
+  margin: clamp(1.5rem, 2.4vw, 2rem) auto 0;
+  max-width: 54ch;
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  font-weight: 500;
+  line-height: 1.8;
+  color: #32200f;
+  animation: stIn 700ms var(--ff-ease) 180ms both;
+}
+
+/* --- List ------------------------------------------------------------ */
+.body {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(1.375rem, 3.6vw, 5rem);
+}
+
+@keyframes stIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow,
+  .title,
+  .lead {
+    animation: none;
+  }
+}

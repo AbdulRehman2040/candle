@@ -1,0 +1,424 @@
+/* ==================================================================
+   FONDUE FLAME — Stockist list
+   A directory, so legibility beats decoration. Type and rules only.
+================================================================== */
+
+.root {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 700ms var(--ff-ease-soft), transform 800ms var(--ff-ease);
+}
+.ready {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Placeholder warning ---------------------------------------------- */
+.notice {
+  margin: 0 0 clamp(2rem, 3.6vw, 2.75rem);
+  padding: clamp(1rem, 1.8vw, 1.25rem) clamp(1.125rem, 2vw, 1.5rem);
+  border: 1px solid #a38a72;
+  border-left: 3px solid #a85c31;
+  border-radius: 2px;
+  background: #fbf6ee;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.7;
+  color: #32200f;
+}
+.noticeTitle {
+  font-weight: 700;
+  color: #7a3f1c;
+}
+
+/* --- Search ------------------------------------------------------------ */
+.searchRow {
+  margin-bottom: clamp(2.5rem, 4.5vw, 3.5rem);
+}
+
+.searchLabel {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #7a3f1c;
+}
+
+.searchField {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  max-width: 34rem;
+}
+
+.search {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.95rem 1.125rem;
+  /* 3.21:1 against the ivory ground — the lighter border we had first
+     measured 1.60:1 and vanished for anyone with weak eyesight. */
+  border: 1px solid #a38a72;
+  border-radius: 2px;
+  background: #fffdfa;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2a1813;
+  transition: border-color 200ms var(--ff-ease-soft),
+    box-shadow 200ms var(--ff-ease-soft);
+}
+.search::placeholder {
+  color: rgba(42, 24, 19, 0.72);
+}
+.search:focus {
+  outline: none;
+  border-color: #a85c31;
+  box-shadow: 0 0 0 3px rgba(168, 92, 49, 0.18);
+}
+
+.clear {
+  flex: 0 0 auto;
+  padding: 0 1.125rem;
+  border: 1px solid #a38a72;
+  border-radius: 2px;
+  background: transparent;
+  font: inherit;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #2a1813;
+  cursor: pointer;
+  transition: background-color 200ms var(--ff-ease-soft),
+    color 200ms var(--ff-ease-soft);
+}
+.clear:hover,
+.clear:focus-visible {
+  background: #2a1813;
+  color: #fdfaf5;
+}
+
+.count {
+  margin: 0.875rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #5a4436;
+}
+
+/* --- Regions ----------------------------------------------------------- */
+.region {
+  margin-bottom: clamp(2.75rem, 5vw, 4rem);
+  scroll-margin-top: calc(var(--ff-header-h-scrolled, 74px) + 2rem);
+}
+
+.regionName {
+  margin: 0 0 clamp(1.25rem, 2.2vw, 1.75rem);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(168, 92, 49, 0.34);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: #2a1813;
+}
+
+/* --- Horizontal row cards ---------------------------------------------- */
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(0.75rem, 1.4vw, 1rem);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1rem, 2.4vw, 1.75rem);
+  padding: clamp(1rem, 2vw, 1.375rem) clamp(1.125rem, 2.2vw, 1.5rem);
+  border: 1px solid rgba(168, 92, 49, 0.3);
+  border-radius: 10px;
+  background: #fffdfa;
+  transition: border-color 260ms var(--ff-ease-soft),
+    box-shadow 260ms var(--ff-ease-soft), transform 260ms var(--ff-ease);
+}
+.card:hover {
+  border-color: rgba(168, 92, 49, 0.55);
+  box-shadow: 0 1px 2px rgba(45, 28, 21, 0.04),
+    0 14px 30px -22px rgba(45, 28, 21, 0.4);
+  transform: translateY(-2px);
+}
+
+/* --- Logo ------------------------------------------------------------- */
+.logoWrap {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: clamp(52px, 9vw, 68px);
+  height: clamp(52px, 9vw, 68px);
+  border: 1px solid rgba(168, 92, 49, 0.3);
+  border-radius: 8px;
+  background: #f6efe4;
+  overflow: hidden;
+}
+.logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+/* Until a shop supplies a logo, its initials stand in */
+.monogram {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.125rem, 2.2vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #8a5430;
+}
+
+/* --- Details ---------------------------------------------------------- */
+.details {
+  min-width: 0;
+}
+
+.shopName {
+  margin: 0;
+  font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: #2a1813;
+}
+
+.address {
+  margin: 0.3rem 0 0;
+  font-style: normal;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #32200f;
+}
+.postcode {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.note {
+  margin: 0.3rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-style: italic;
+  color: #7a3f1c;
+}
+
+/* --- Actions ---------------------------------------------------------- */
+.actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.8vw, 1.25rem);
+}
+
+.phone {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  color: #2a1813;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(168, 92, 49, 0.4);
+  padding-bottom: 2px;
+  transition: color 220ms var(--ff-ease-soft),
+    border-color 220ms var(--ff-ease-soft);
+}
+.phone:hover,
+.phone:focus-visible {
+  color: #a85c31;
+  border-color: #a85c31;
+}
+
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.7rem 1.125rem;
+  border: 1px solid #8a5430;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #6f4123;
+  transition: background-color 220ms var(--ff-ease-soft),
+    color 220ms var(--ff-ease-soft);
+}
+.mapLink:hover,
+.mapLink:focus-visible {
+  background: #8a5430;
+  color: #fdfaf5;
+}
+.mapLink:hover .arrow,
+.mapLink:focus-visible .arrow {
+  transform: translateX(4px);
+}
+
+.pending {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-style: italic;
+  color: #7a3f1c;
+  white-space: nowrap;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 220ms var(--ff-ease);
+}
+
+/* Stack the row on narrow screens rather than squeezing three columns */
+@media (max-width: 599px) {
+  .card {
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 1rem;
+  }
+  .actions {
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 0.875rem;
+    border-top: 1px solid rgba(168, 92, 49, 0.24);
+  }
+  .mapLink {
+    flex: 0 0 auto;
+  }
+}
+
+/* --- Empty state -------------------------------------------------------- */
+.empty {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-top: 1px solid rgba(168, 92, 49, 0.28);
+  border-bottom: 1px solid rgba(168, 92, 49, 0.28);
+  margin-bottom: clamp(2.75rem, 5vw, 4rem);
+}
+.emptyTitle {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-weight: 500;
+  color: #2a1813;
+}
+.emptyText {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.75;
+  color: #32200f;
+}
+.inlineButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: #a85c31;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.inlineButton:hover,
+.inlineButton:focus-visible {
+  color: #7a3f1c;
+}
+
+/* --- Online sellers ------------------------------------------------------ */
+.online {
+  margin-bottom: clamp(2.75rem, 5vw, 4rem);
+}
+
+/* --- Retailer prompt ------------------------------------------------------ */
+.retailer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  padding: clamp(1.75rem, 3vw, 2.25rem) clamp(1.5rem, 2.6vw, 2rem);
+  border: 1px solid rgba(168, 92, 49, 0.34);
+  border-radius: 2px;
+  background: #fbf6ee;
+}
+
+.retailerText {
+  margin: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.125rem, 2vw, 1.4375rem);
+  font-weight: 500;
+  line-height: 1.4;
+  color: #2a1813;
+}
+
+.retailerCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border: 1px solid #8a5430;
+  border-radius: 2px;
+  background: #8a5430;
+  color: #fdfaf5;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 240ms var(--ff-ease-soft),
+    transform 240ms var(--ff-ease);
+}
+.retailerCta:hover,
+.retailerCta:focus-visible {
+  background: #6f4123;
+  transform: translateY(-2px);
+}
+.retailerCta:hover .arrow,
+.retailerCta:focus-visible .arrow {
+  transform: translateX(5px);
+}
+
+@media (max-width: 480px) {
+  .searchField {
+    flex-direction: column;
+  }
+  .clear {
+    padding: 0.75rem;
+  }
+  .retailerCta {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* --- Motion preference ----------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .root * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+  .root {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .retailerCta:hover,
+  .retailerCta:focus-visible {
+    transform: none;
+  }
+}

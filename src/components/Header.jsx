@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { label: "The Experience", href: "/#experience" },
   { label: "Occasions", href: "/#occasions" },
   { label: "Our Story", href: "/#our-story" },
+  { label: "Where to Buy", href: "/stockists" },
   { label: "Wholesale", href: "/wholesale" },
 ];
 

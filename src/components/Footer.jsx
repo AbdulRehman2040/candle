@@ -5,11 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Footer.module.css";
 
-/* Only destinations that exist: the homepage, its sections, and wholesale. */
+/* Only destinations that exist: the homepage, its sections, stockists
+   and wholesale. */
 const LINKS = [
   { label: "The Experience", href: "/#experience" },
   { label: "Our Story", href: "/#our-story" },
   { label: "Occasions", href: "/#occasions" },
+  { label: "Where to Buy", href: "/stockists" },
   { label: "Wholesale", href: "/wholesale" },
   { label: "Enquiries", href: "/wholesale#enquiry" },
 ];

@@ -26,27 +26,27 @@ const ITEMS = [
     src: "/occasions/hen.jpg",
     alt: "A bright birthday table with a cake, paper garland and Fondue Flame dishes",
   },
-  {
-    num: "04",
-    name: "Christmas",
-    note: "Candlelight, chocolate and the slow part of the evening.",
-    src: "/occasions/christmas.jpg",
-    alt: "A Christmas table with pine, copper baubles and Fondue Flame dishes",
-  },
-  {
-    num: "05",
-    name: "Fundraisers & Community Events",
-    note: "Simple to set up, simple to serve, and it draws people in.",
-    src: "/occasions/fundraisers.jpg",
-    alt: "A community hall trestle table with Fondue Flame dishes and bowls of fruit being shared",
-  },
-  {
-    num: "06",
-    name: "Quiet Evenings In",
-    note: "Two people, a little chocolate and no rush.",
-    src: "/occasions/evenings.jpg",
-    alt: "A Fondue Flame on a side table beside a sofa, two hands reaching in",
-  },
+  // {
+  //   num: "04",
+  //   name: "Christmas",
+  //   note: "Candlelight, chocolate and the slow part of the evening.",
+  //   src: "/occasions/christmas.jpg",
+  //   alt: "A Christmas table with pine, copper baubles and Fondue Flame dishes",
+  // },
+  // {
+  //   num: "05",
+  //   name: "Fundraisers & Community Events",
+  //   note: "Simple to set up, simple to serve, and it draws people in.",
+  //   src: "/occasions/fundraisers.jpg",
+  //   alt: "A community hall trestle table with Fondue Flame dishes and bowls of fruit being shared",
+  // },
+  // {
+  //   num: "06",
+  //   name: "Quiet Evenings In",
+  //   note: "Two people, a little chocolate and no rush.",
+  //   src: "/occasions/evenings.jpg",
+  //   alt: "A Fondue Flame on a side table beside a sofa, two hands reaching in",
+  // },
 ];
 
 const MORE = [

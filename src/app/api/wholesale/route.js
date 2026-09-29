@@ -1,9 +1,11 @@
-/* Receives wholesale enquiries from the form.
+import { createAdminClient } from "@/lib/supabase/server";
+
+/* Receives wholesale enquiries from the form and stores them as leads.
  *
- * TODO before launch: connect delivery. This handler validates and accepts
- * the enquiry but does not yet send it anywhere — add an email send
- * (Resend / Postmark / SES) or a CRM call where marked, and keep the
- * validation below as the gate. */
+ * Writes use the service-role client, which bypasses row level security.
+ * That is deliberate: `leads` has no public insert policy, so the table
+ * cannot be written to straight from a browser. Everything that reaches
+ * the insert below has passed the validation in this file first. */
 
 const REQUIRED = ["businessName", "contactName", "email", "businessType", "location"];
 const MAX = 4000;
@@ -34,17 +36,43 @@ export async function POST(request) {
     return Response.json({ error: "Field too long" }, { status: 413 });
   }
 
-  /* --- Delivery goes here ------------------------------------------
-     e.g. await resend.emails.send({ to: "wholesale@…", subject: …, text: … })
-     Until then the enquiry is logged server-side only. */
-  console.info("[wholesale enquiry]", {
-    businessName: body.businessName,
-    contactName: body.contactName,
-    email: body.email,
-    businessType: body.businessType,
-    location: body.location,
-    receivedAt: new Date().toISOString(),
-  });
+  const text = (value) =>
+    typeof value === "string" && value.trim() ? value.trim() : null;
+
+  try {
+    const supabase = createAdminClient();
+    const { error } = await supabase.from("leads").insert({
+      name: body.contactName.trim(),
+      email: body.email.trim().toLowerCase(),
+      business_name: body.businessName.trim(),
+      phone: text(body.phone),
+      business_type: body.businessType.trim(),
+      website: text(body.website),
+      /* Location is part of the enquiry but has no column of its own —
+         it is kept with the message so nothing the sender typed is lost. */
+      message: [text(body.message), `Location: ${body.location.trim()}`]
+        .filter(Boolean)
+        .join("\n\n"),
+      status: "new",
+    });
+
+    if (error) {
+      /* Log the detail server-side; the sender only needs to know it
+         failed, not why. */
+      console.error("[wholesale enquiry] insert failed:", error.message);
+      return Response.json(
+        { error: "Could not save enquiry" },
+        { status: 500 }
+      );
+    }
+  } catch (cause) {
+    console.error("[wholesale enquiry] unexpected error:", cause);
+    return Response.json({ error: "Could not save enquiry" }, { status: 500 });
+  }
+
+  /* TODO: optional email notification (Resend / Postmark / SES) so the
+     team is alerted without opening the dashboard. The lead is saved
+     either way, so this is a convenience rather than a dependency. */
 
   return Response.json({ ok: true }, { status: 200 });
 }
