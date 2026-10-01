@@ -128,7 +128,7 @@ export default function Header() {
             src="/logo-mark-dark.png"
             alt=""
             aria-hidden="true"
-            width={1218}
+            width={118}
             height={432}
             sizes="190px"
             className={styles.logoImgDark}

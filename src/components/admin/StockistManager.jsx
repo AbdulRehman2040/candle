@@ -4,22 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./Admin.module.css";
 
-const REGIONS = [
-  "London & the South East",
-  "The South West",
-  "The Midlands",
-  "The North",
-  "Scotland, Wales & NI",
-  "Other",
-];
-
 const BLANK = {
   name: "",
   street: "",
   town: "",
   postcode: "",
   phone: "",
-  region: REGIONS[0],
   website: "",
   logo_url: "",
 };
@@ -32,6 +22,7 @@ export default function StockistManager() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const load = useCallback(async () => {
     const supabase = createClient();
@@ -54,6 +45,48 @@ export default function StockistManager() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
+  /* Uploads the chosen file to the stockist-logos bucket and stores the
+     public URL on the form. Keeps the old URL if anything fails, so a bad
+     upload cannot silently blank an existing logo. */
+  async function onLogoFile(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setError("That file is not an image.");
+      event.target.value = "";
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setError("Logo must be 2MB or smaller.");
+      event.target.value = "";
+      return;
+    }
+
+    setError("");
+    setUploading(true);
+
+    const supabase = createClient();
+    const ext = (file.name.split(".").pop() || "png").toLowerCase();
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("stockist-logos")
+      .upload(path, file, { cacheControl: "31536000", upsert: false });
+
+    if (uploadError) {
+      setError(`Upload failed: ${uploadError.message}`);
+      setUploading(false);
+      event.target.value = "";
+      return;
+    }
+
+    const { data } = supabase.storage.from("stockist-logos").getPublicUrl(path);
+    set("logo_url", data.publicUrl);
+    setUploading(false);
+    event.target.value = "";
+  }
+
   function startEdit(shop) {
     setEditingId(shop.id);
     setForm({
@@ -62,7 +95,6 @@ export default function StockistManager() {
       town: shop.town || "",
       postcode: shop.postcode || "",
       phone: shop.phone || "",
-      region: shop.region || REGIONS[0],
       website: shop.website || "",
       logo_url: shop.logo_url || "",
     });
@@ -93,7 +125,6 @@ export default function StockistManager() {
       town: form.town.trim(),
       postcode: form.postcode.trim().toUpperCase(),
       phone: form.phone.trim() || null,
-      region: form.region,
       website: form.website.trim() || null,
       logo_url: form.logo_url.trim() || null,
     };
@@ -179,22 +210,43 @@ export default function StockistManager() {
           <input id="phone" className={styles.input} value={form.phone}
             onChange={(e) => set("phone", e.target.value)} />
 
-          <label className={styles.label} htmlFor="region">Region</label>
-          <select id="region" className={styles.select} value={form.region}
-            onChange={(e) => set("region", e.target.value)}>
-            {REGIONS.map((r) => <option key={r} value={r}>{r}</option>)}
-          </select>
-
           <label className={styles.label} htmlFor="website">Website</label>
           <input id="website" className={styles.input} value={form.website}
             placeholder="https://" onChange={(e) => set("website", e.target.value)} />
 
-          <label className={styles.label} htmlFor="logo_url">Logo URL</label>
-          <input id="logo_url" className={styles.input} value={form.logo_url}
-            placeholder="Leave blank to use initials"
-            onChange={(e) => set("logo_url", e.target.value)} />
+          <label className={styles.label} htmlFor="logo_file">Logo</label>
+          <div className={styles.logoRow}>
+            <span className={styles.logoPreview}>
+              {form.logo_url ? (
+                /* Plain img: the bucket host is not in next.config images */
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.logo_url} alt="" className={styles.logoThumb} />
+              ) : (
+                <span className={styles.logoEmpty}>None</span>
+              )}
+            </span>
+            <div className={styles.logoControls}>
+              <input
+                id="logo_file"
+                type="file"
+                accept="image/*"
+                className={styles.fileInput}
+                onChange={onLogoFile}
+                disabled={uploading}
+              />
+              {form.logo_url && (
+                <button type="button" className={styles.smallBtn}
+                  onClick={() => set("logo_url", "")}>
+                  Remove logo
+                </button>
+              )}
+              <p className={styles.fileHint}>
+                {uploading ? "Uploading…" : "PNG or JPG, up to 2MB. Optional — initials are used when there is no logo."}
+              </p>
+            </div>
+          </div>
 
-          <button type="submit" className={styles.primaryBtn} disabled={busy}>
+          <button type="submit" className={styles.primaryBtn} disabled={busy || uploading}>
             {busy ? "Saving…" : editingId ? "Save changes" : "Add shop"}
           </button>
 
@@ -232,7 +284,6 @@ export default function StockistManager() {
                       {shop.street}, {shop.town}, {shop.postcode}
                       {shop.phone && <> · {shop.phone}</>}
                     </p>
-                    <span className={styles.recordTag}>{shop.region}</span>
                   </div>
                   <div className={styles.recordActions}>
                     <button type="button" className={styles.smallBtn}

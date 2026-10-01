@@ -407,3 +407,75 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* --- Logo uploader ------------------------------------------------------ */
+.logoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.logoPreview {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid #a38a72;
+  border-radius: 6px;
+  background: #f6efe4;
+  overflow: hidden;
+}
+.logoThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
+}
+.logoEmpty {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a3f1c;
+}
+
+.logoControls {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.fileInput {
+  width: 100%;
+  font: inherit;
+  font-size: 0.8125rem;
+  color: #2a1813;
+}
+.fileInput::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.45rem 0.875rem;
+  border: 1px solid #a38a72;
+  border-radius: 6px;
+  background: #fffdfa;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2a1813;
+  cursor: pointer;
+}
+.fileInput::file-selector-button:hover {
+  background: #2a1813;
+  color: #fdfaf5;
+}
+
+.fileHint {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #5a4436;
+}

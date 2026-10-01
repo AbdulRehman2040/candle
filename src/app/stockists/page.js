@@ -13,7 +13,7 @@ export const metadata = {
 export const revalidate = 60;
 
 export default async function StockistsPage() {
-  const { regions, fromDatabase } = await getStockists();
+  const { shops } = await getStockists();
 
   return (
     <div className={styles.page}>
@@ -27,7 +27,7 @@ export default async function StockistsPage() {
       </section>
 
       <section className={styles.body} aria-label="Stockists">
-        <StockistList regions={regions} placeholder={!fromDatabase} />
+        <StockistList shops={shops} />
       </section>
     </div>
   );

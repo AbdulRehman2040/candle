@@ -31,7 +31,7 @@
 .solid {
   --strip-h: 0px;
   --h: 88px;
-  --logo-h: 52px;
+  --logo-h: 64px;
 
   --ink: var(--ff-espresso);
   --accent: var(--ff-copper);
@@ -50,7 +50,7 @@
   }
   .solid {
     --h: 72px;
-    --logo-h: 46px;
+    --logo-h: 56px;
   }
 }
 

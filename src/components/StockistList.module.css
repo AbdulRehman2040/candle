@@ -107,60 +107,68 @@
   color: #5a4436;
 }
 
-/* --- Regions ----------------------------------------------------------- */
-.region {
-  margin-bottom: clamp(2.75rem, 5vw, 4rem);
-  scroll-margin-top: calc(var(--ff-header-h-scrolled, 74px) + 2rem);
-}
-
-.regionName {
-  margin: 0 0 clamp(1.25rem, 2.2vw, 1.75rem);
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(168, 92, 49, 0.34);
-  font-family: var(--font-cormorant), Georgia, serif;
-  font-size: clamp(1.375rem, 2.4vw, 1.875rem);
-  font-weight: 500;
-  line-height: 1.2;
-  color: #2a1813;
-}
-
-/* --- Horizontal row cards ---------------------------------------------- */
-.cards {
+/* --- Cards -------------------------------------------------------------
+   One ground, one hairline, one accent. The earlier two-tone tab read as
+   a template rather than a brand, so the colour is gone and the card is
+   carried by type, spacing and a single copper rule instead.
+----------------------------------------------------------------------- */
+.grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: clamp(0.75rem, 1.4vw, 1rem);
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.item {
+  min-width: 0;
 }
 
 .card {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(1rem, 2.4vw, 1.75rem);
-  padding: clamp(1rem, 2vw, 1.375rem) clamp(1.125rem, 2.2vw, 1.5rem);
-  border: 1px solid rgba(168, 92, 49, 0.3);
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  height: 100%;
+  padding: clamp(1.375rem, 2.4vw, 1.75rem);
+  border: 1px solid rgba(168, 92, 49, 0.28);
+  border-radius: 4px;
   background: #fffdfa;
-  transition: border-color 260ms var(--ff-ease-soft),
-    box-shadow 260ms var(--ff-ease-soft), transform 260ms var(--ff-ease);
+  transition: border-color 280ms var(--ff-ease-soft),
+    box-shadow 280ms var(--ff-ease-soft);
 }
 .card:hover {
-  border-color: rgba(168, 92, 49, 0.55);
+  border-color: rgba(168, 92, 49, 0.5);
   box-shadow: 0 1px 2px rgba(45, 28, 21, 0.04),
-    0 14px 30px -22px rgba(45, 28, 21, 0.4);
-  transform: translateY(-2px);
+    0 18px 38px -28px rgba(45, 28, 21, 0.42);
 }
 
-/* --- Logo ------------------------------------------------------------- */
-.logoWrap {
+/* --- Head: logo and name ------------------------------------------- */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid rgba(168, 92, 49, 0.22);
+}
+
+.logoBox {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: clamp(52px, 9vw, 68px);
-  height: clamp(52px, 9vw, 68px);
-  border: 1px solid rgba(168, 92, 49, 0.3);
-  border-radius: 8px;
+  width: 52px;
+  height: 52px;
+  border-radius: 2px;
   background: #f6efe4;
   overflow: hidden;
 }
@@ -168,33 +176,33 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 6px;
+  padding: 5px;
 }
-/* Until a shop supplies a logo, its initials stand in */
+/* Initials stand in until a shop supplies a logo */
 .monogram {
   font-family: var(--font-cormorant), Georgia, serif;
-  font-size: clamp(1.125rem, 2.2vw, 1.375rem);
+  font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: #8a5430;
 }
 
-/* --- Details ---------------------------------------------------------- */
-.details {
-  min-width: 0;
-}
-
 .shopName {
   margin: 0;
-  font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  line-height: 1.35;
+  min-width: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(1.1875rem, 1.6vw, 1.4375rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
   color: #2a1813;
 }
 
+/* --- Details -------------------------------------------------------- */
 .address {
-  margin: 0.3rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
   font-style: normal;
   font-size: 0.9375rem;
   font-weight: 500;
@@ -204,34 +212,16 @@
 .postcode {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.note {
-  margin: 0.3rem 0 0;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  font-style: italic;
-  color: #7a3f1c;
-}
-
-/* --- Actions ---------------------------------------------------------- */
-.actions {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: clamp(0.75rem, 1.8vw, 1.25rem);
 }
 
 .phone {
+  align-self: flex-start;
   font-size: 0.9375rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
   color: #2a1813;
   text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 1px solid rgba(168, 92, 49, 0.4);
+  border-bottom: 1px solid rgba(168, 92, 49, 0.42);
   padding-bottom: 2px;
   transition: color 220ms var(--ff-ease-soft),
     border-color 220ms var(--ff-ease-soft);
@@ -242,14 +232,22 @@
   border-color: #a85c31;
 }
 
-.mapLink {
+/* --- Actions: Directions and Website, matching buttons --------------- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.875rem;
+}
+
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.7rem 1.125rem;
+  gap: 0.5rem;
+  padding: 0.65rem 1.125rem;
   border: 1px solid #8a5430;
-  border-radius: 999px;
-  background: transparent;
+  border-radius: 2px;
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -260,22 +258,14 @@
   transition: background-color 220ms var(--ff-ease-soft),
     color 220ms var(--ff-ease-soft);
 }
-.mapLink:hover,
-.mapLink:focus-visible {
+.btn:hover,
+.btn:focus-visible {
   background: #8a5430;
   color: #fdfaf5;
 }
-.mapLink:hover .arrow,
-.mapLink:focus-visible .arrow {
-  transform: translateX(4px);
-}
-
-.pending {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  font-style: italic;
-  color: #7a3f1c;
-  white-space: nowrap;
+.btn:hover .arrow,
+.btn:focus-visible .arrow {
+  transform: translateX(3px);
 }
 
 .arrow {
@@ -283,22 +273,16 @@
   transition: transform 220ms var(--ff-ease);
 }
 
-/* Stack the row on narrow screens rather than squeezing three columns */
-@media (max-width: 599px) {
-  .card {
-    grid-template-columns: auto minmax(0, 1fr);
-    row-gap: 1rem;
-  }
-  .actions {
-    grid-column: 1 / -1;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-top: 0.875rem;
-    border-top: 1px solid rgba(168, 92, 49, 0.24);
-  }
-  .mapLink {
-    flex: 0 0 auto;
-  }
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* --- Empty state -------------------------------------------------------- */
@@ -322,6 +306,7 @@
   line-height: 1.75;
   color: #32200f;
 }
+.inlineLink,
 .inlineButton {
   padding: 0;
   border: 0;
@@ -336,11 +321,6 @@
 .inlineButton:hover,
 .inlineButton:focus-visible {
   color: #7a3f1c;
-}
-
-/* --- Online sellers ------------------------------------------------------ */
-.online {
-  margin-bottom: clamp(2.75rem, 5vw, 4rem);
 }
 
 /* --- Retailer prompt ------------------------------------------------------ */

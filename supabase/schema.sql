@@ -92,3 +92,35 @@ select * from (values
   ('Example Trading Post',  '00 Placeholder Close',  'Edinburgh',  'EH0 0AA', '01632 960777', 'Scotland, Wales & NI',    7)
 ) as seed(name, street, town, postcode, phone, region, sort_order)
 where not exists (select 1 from public.stockists);
+
+-- ==================================================================
+-- STOCKIST LOGOS — storage
+-- Run this alongside the schema above. Creates a public bucket so logo
+-- images can be uploaded from the dashboard instead of pasting a URL.
+-- ==================================================================
+
+insert into storage.buckets (id, name, public)
+values ('stockist-logos', 'stockist-logos', true)
+on conflict (id) do nothing;
+
+-- Anyone may view a logo (they appear on the public site).
+drop policy if exists "logos public read" on storage.objects;
+create policy "logos public read"
+  on storage.objects for select
+  using (bucket_id = 'stockist-logos');
+
+-- Only a signed-in admin may upload, replace or remove one.
+drop policy if exists "logos admin insert" on storage.objects;
+create policy "logos admin insert"
+  on storage.objects for insert
+  to authenticated with check (bucket_id = 'stockist-logos');
+
+drop policy if exists "logos admin update" on storage.objects;
+create policy "logos admin update"
+  on storage.objects for update
+  to authenticated using (bucket_id = 'stockist-logos');
+
+drop policy if exists "logos admin delete" on storage.objects;
+create policy "logos admin delete"
+  on storage.objects for delete
+  to authenticated using (bucket_id = 'stockist-logos');
