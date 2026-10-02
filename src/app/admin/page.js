@@ -1,7 +1,7 @@
-import StockistManager from "@/components/admin/StockistManager";
+import DashboardOverview from "@/components/admin/DashboardOverview";
 
-export const metadata = { title: "Where to Buy | Fondue Flame Admin" };
+export const metadata = { title: "Dashboard | Fondue Flame Admin" };
 
 export default function AdminHome() {
-  return <StockistManager />;
+  return <DashboardOverview />;
 }

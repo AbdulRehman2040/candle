@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { websiteHref } from "./format";
+import { SearchIcon } from "./icons";
 import styles from "./Admin.module.css";
 
 const BLANK = {
@@ -23,6 +25,7 @@ export default function StockistManager() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [query, setQuery] = useState("");
 
   const load = useCallback(async () => {
     const supabase = createClient();
@@ -167,20 +170,33 @@ export default function StockistManager() {
     }
   }
 
+  const q = query.trim().toLowerCase();
+  const shown = q
+    ? shops.filter((shop) =>
+        [shop.name, shop.street, shop.town, shop.postcode, shop.phone]
+          .filter(Boolean)
+          .some((v) => v.toLowerCase().includes(q))
+      )
+    : shops;
+
   return (
     <>
-      <h1 className={styles.pageTitle}>Where to Buy</h1>
-      <p className={styles.pageLead}>
-        Shops listed here appear on the website. Add the real stockists and
-        delete the demo rows when you are ready.
-      </p>
+      <div className={styles.pageHead}>
+        <div>
+          <h1 className={styles.pageTitle}>Where to Buy</h1>
+          <p className={styles.pageLead}>
+            Shops listed here appear on the website. Add the real stockists and
+            delete the demo rows when you are ready.
+          </p>
+        </div>
+      </div>
 
       {message && <p className={styles.success}>{message}</p>}
       {error && <p className={styles.error}>{error}</p>}
 
       <div className={styles.split}>
         {/* --- Add / edit ------------------------------------------- */}
-        <form className={styles.panel} onSubmit={onSubmit}>
+        <form className={`${styles.card} ${styles.formCard}`} onSubmit={onSubmit}>
           <p className={styles.panelTitle}>
             {editingId ? "Edit shop" : "Add a shop"}
           </p>
@@ -263,44 +279,100 @@ export default function StockistManager() {
         </form>
 
         {/* --- List -------------------------------------------------- */}
-        <div>
-          <p className={styles.count}>
-            {loading
-              ? "Loading…"
-              : `${shops.length} ${shops.length === 1 ? "shop" : "shops"}`}
-          </p>
+        <section className={styles.card}>
+          <div className={styles.toolbar}>
+            <h2 className={styles.cardTitle}>
+              {loading ? "Shops" : `${shops.length} ${shops.length === 1 ? "shop" : "shops"}`}
+            </h2>
+            <label className={styles.search}>
+              <SearchIcon size={16} />
+              <input
+                type="search"
+                placeholder="Search shops…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="Search shops"
+              />
+            </label>
+          </div>
 
-          {!loading && shops.length === 0 ? (
-            <p className={styles.empty}>
-              No shops yet. Add the first one using the form.
+          {loading ? (
+            <p className={styles.tableEmpty}>Loading…</p>
+          ) : shown.length === 0 ? (
+            <p className={styles.tableEmpty}>
+              {shops.length === 0
+                ? "No shops yet. Add the first one using the form."
+                : "No shops match your search."}
             </p>
           ) : (
-            <ul className={styles.records}>
-              {shops.map((shop) => (
-                <li key={shop.id} className={styles.record}>
-                  <div>
-                    <p className={styles.recordName}>{shop.name}</p>
-                    <p className={styles.recordMeta}>
-                      {shop.street}, {shop.town}, {shop.postcode}
-                      {shop.phone && <> · {shop.phone}</>}
-                    </p>
-                  </div>
-                  <div className={styles.recordActions}>
-                    <button type="button" className={styles.smallBtn}
-                      onClick={() => startEdit(shop)}>
-                      Edit
-                    </button>
-                    <button type="button"
-                      className={`${styles.smallBtn} ${styles.dangerBtn}`}
-                      onClick={() => remove(shop)}>
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Shop</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Website</th>
+                    <th className={styles.thActions}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {shown.map((shop) => (
+                    <tr key={shop.id} className={editingId === shop.id ? styles.rowEditing : ""}>
+                      <td data-label="Shop">
+                        <span className={styles.shopCell}>
+                          <span className={styles.shopLogo}>
+                            {shop.logo_url ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={shop.logo_url} alt="" />
+                            ) : (
+                              shop.name.slice(0, 2).toUpperCase()
+                            )}
+                          </span>
+                          <span className={styles.cellStrong}>{shop.name}</span>
+                        </span>
+                      </td>
+                      <td data-label="Address">
+                        {shop.street}
+                        <span className={styles.cellSub}>
+                          {shop.town}, {shop.postcode}
+                        </span>
+                      </td>
+                      <td data-label="Phone" className={styles.nowrap}>
+                        {shop.phone || "—"}
+                      </td>
+                      <td data-label="Website">
+                        {shop.website ? (
+                          <a
+                            className={styles.leadLink}
+                            href={websiteHref(shop.website)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Visit
+                          </a>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                      <td data-label="Actions" className={styles.tdActions}>
+                        <button type="button" className={styles.smallBtn}
+                          onClick={() => startEdit(shop)}>
+                          Edit
+                        </button>
+                        <button type="button"
+                          className={`${styles.smallBtn} ${styles.dangerBtn}`}
+                          onClick={() => remove(shop)}>
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
-        </div>
+        </section>
       </div>
     </>
   );
