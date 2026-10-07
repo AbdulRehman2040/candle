@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { readComingSoon, writeComingSoon } from "@/lib/siteSettings";
 import { websiteHref } from "./format";
 import { SearchIcon } from "./icons";
 import styles from "./Admin.module.css";
@@ -32,24 +33,18 @@ export default function StockistManager() {
 
   const load = useCallback(async () => {
     const supabase = createClient();
-    const [shopRes, settingRes] = await Promise.all([
+    const [shopRes, soon] = await Promise.all([
       supabase
         .from("stockists")
         .select("*")
         .order("sort_order", { ascending: true })
         .order("name", { ascending: true }),
-      supabase
-        .from("site_settings")
-        .select("value")
-        .eq("key", "stockists_coming_soon")
-        .maybeSingle(),
+      readComingSoon(supabase),
     ]);
 
     if (shopRes.error) setError(shopRes.error.message);
     else setShops(shopRes.data || []);
-    /* Matches the public site: anything other than an explicit false
-       (including a missing row or table) means Coming soon. */
-    setComingSoon(settingRes.error || !settingRes.data ? true : settingRes.data.value !== false);
+    setComingSoon(soon);
     setLoading(false);
   }, []);
 
@@ -67,20 +62,11 @@ export default function StockistManager() {
     setMessage("");
 
     const supabase = createClient();
-    const { error: saveError } = await supabase
-      .from("site_settings")
-      .upsert(
-        { key: "stockists_coming_soon", value: next, updated_at: new Date().toISOString() },
-        { onConflict: "key" }
-      );
+    const saveError = await writeComingSoon(supabase, next);
 
     setSavingToggle(false);
     if (saveError) {
-      setError(
-        /relation|does not exist|schema cache/i.test(saveError.message)
-          ? "The settings table is missing. Run the SITE SETTINGS block from supabase/schema.sql in the Supabase SQL editor, then try again."
-          : saveError.message
-      );
+      setError(`Could not save the setting: ${saveError.message}`);
       return;
     }
 

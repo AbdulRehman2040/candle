@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { ArrowIcon, LeadsIcon, StoreIcon } from "./icons";
+import { readComingSoon } from "@/lib/siteSettings";
 import { STATUS_LABEL, formatDate } from "./format";
 import styles from "./Admin.module.css";
 
@@ -23,13 +24,9 @@ export default function DashboardOverview() {
         .select("id, name, business_name, email, status, created_at")
         .order("created_at", { ascending: false }),
       supabase.from("stockists").select("id", { count: "exact", head: true }),
-      supabase
-        .from("site_settings")
-        .select("value")
-        .eq("key", "stockists_coming_soon")
-        .maybeSingle(),
-    ]).then(([leadRes, shopRes, settingRes]) => {
-      setComingSoon(settingRes.error || !settingRes.data ? true : settingRes.data.value !== false);
+      readComingSoon(supabase),
+    ]).then(([leadRes, shopRes, soon]) => {
+      setComingSoon(soon);
       if (leadRes.error) setError(leadRes.error.message);
       else {
         const rows = leadRes.data || [];
