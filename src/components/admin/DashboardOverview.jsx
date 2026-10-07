@@ -11,6 +11,7 @@ export default function DashboardOverview() {
   const [leads, setLeads] = useState([]);
   const [shopCount, setShopCount] = useState(0);
   const [thisWeek, setThisWeek] = useState(0);
+  const [comingSoon, setComingSoon] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -22,7 +23,13 @@ export default function DashboardOverview() {
         .select("id, name, business_name, email, status, created_at")
         .order("created_at", { ascending: false }),
       supabase.from("stockists").select("id", { count: "exact", head: true }),
-    ]).then(([leadRes, shopRes]) => {
+      supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "stockists_coming_soon")
+        .maybeSingle(),
+    ]).then(([leadRes, shopRes, settingRes]) => {
+      setComingSoon(settingRes.error || !settingRes.data ? true : settingRes.data.value !== false);
       if (leadRes.error) setError(leadRes.error.message);
       else {
         const rows = leadRes.data || [];
@@ -42,7 +49,7 @@ export default function DashboardOverview() {
     { label: "Total leads", value: leads.length, note: `${thisWeek} in the last 7 days` },
     { label: "New leads", value: count("new"), note: "Waiting for a reply", accent: true },
     { label: "Contacted", value: count("contacted"), note: `${count("archived")} archived` },
-    { label: "Shops listed", value: shopCount, note: "On the Where to Buy page" },
+    { label: "Shops listed", value: shopCount, note: comingSoon ? "Page shows “Coming soon”" : "Live on Where to Buy" },
   ];
 
   const recent = leads.slice(0, 5);

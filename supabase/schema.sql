@@ -124,3 +124,35 @@ drop policy if exists "logos admin delete" on storage.objects;
 create policy "logos admin delete"
   on storage.objects for delete
   to authenticated using (bucket_id = 'stockist-logos');
+
+-- ==================================================================
+-- SITE SETTINGS
+-- Small on/off switches the dashboard controls. Run this block in the
+-- Supabase SQL editor once. Safe to re-run.
+--   stockists_coming_soon: true  → Where to Buy shows "Coming soon"
+--                          false → Where to Buy lists the shops
+-- ==================================================================
+
+create table if not exists public.site_settings (
+  key         text primary key,
+  value       jsonb not null,
+  updated_at  timestamptz not null default now()
+);
+
+alter table public.site_settings enable row level security;
+
+-- Anyone may read settings (the public site needs them); only a
+-- signed-in admin may change them.
+drop policy if exists "settings public read" on public.site_settings;
+create policy "settings public read"
+  on public.site_settings for select
+  using (true);
+
+drop policy if exists "settings admin write" on public.site_settings;
+create policy "settings admin write"
+  on public.site_settings for all
+  to authenticated using (true) with check (true);
+
+insert into public.site_settings (key, value)
+values ('stockists_coming_soon', 'true'::jsonb)
+on conflict (key) do nothing;

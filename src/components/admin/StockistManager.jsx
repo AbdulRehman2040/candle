@@ -26,19 +26,72 @@ export default function StockistManager() {
   const [message, setMessage] = useState("");
   const [uploading, setUploading] = useState(false);
   const [query, setQuery] = useState("");
+  /* null while loading; true = public page shows "Coming soon". */
+  const [comingSoon, setComingSoon] = useState(null);
+  const [savingToggle, setSavingToggle] = useState(false);
 
   const load = useCallback(async () => {
     const supabase = createClient();
-    const { data, error: loadError } = await supabase
-      .from("stockists")
-      .select("*")
-      .order("sort_order", { ascending: true })
-      .order("name", { ascending: true });
+    const [shopRes, settingRes] = await Promise.all([
+      supabase
+        .from("stockists")
+        .select("*")
+        .order("sort_order", { ascending: true })
+        .order("name", { ascending: true }),
+      supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "stockists_coming_soon")
+        .maybeSingle(),
+    ]);
 
-    if (loadError) setError(loadError.message);
-    else setShops(data || []);
+    if (shopRes.error) setError(shopRes.error.message);
+    else setShops(shopRes.data || []);
+    /* Matches the public site: anything other than an explicit false
+       (including a missing row or table) means Coming soon. */
+    setComingSoon(settingRes.error || !settingRes.data ? true : settingRes.data.value !== false);
     setLoading(false);
   }, []);
+
+  /* Ask the server to rebuild the public Where to Buy page so changes show
+     straight away. Best-effort: the page refreshes itself within a minute
+     anyway. */
+  function refreshPublicPage() {
+    fetch("/api/admin/revalidate", { method: "POST" }).catch(() => {});
+  }
+
+  async function toggleComingSoon() {
+    const next = !comingSoon;
+    setSavingToggle(true);
+    setError("");
+    setMessage("");
+
+    const supabase = createClient();
+    const { error: saveError } = await supabase
+      .from("site_settings")
+      .upsert(
+        { key: "stockists_coming_soon", value: next, updated_at: new Date().toISOString() },
+        { onConflict: "key" }
+      );
+
+    setSavingToggle(false);
+    if (saveError) {
+      setError(
+        /relation|does not exist|schema cache/i.test(saveError.message)
+          ? "The settings table is missing. Run the SITE SETTINGS block from supabase/schema.sql in the Supabase SQL editor, then try again."
+          : saveError.message
+      );
+      return;
+    }
+
+    setComingSoon(next);
+    setMessage(
+      next
+        ? "Where to Buy now shows “Coming soon” on the website."
+        : "Where to Buy now shows your shops on the website."
+    );
+    refreshPublicPage();
+  }
 
   useEffect(() => {
     load();
@@ -147,6 +200,7 @@ export default function StockistManager() {
     setEditingId(null);
     setBusy(false);
     load();
+    refreshPublicPage();
   }
 
   async function remove(shop) {
@@ -167,6 +221,7 @@ export default function StockistManager() {
     else {
       setMessage(`${shop.name} deleted.`);
       load();
+      refreshPublicPage();
     }
   }
 
@@ -190,6 +245,43 @@ export default function StockistManager() {
           </p>
         </div>
       </div>
+
+      <section className={`${styles.card} ${styles.visibility}`}>
+        <div className={styles.visibilityText}>
+          <p className={styles.visibilityTitle}>Public Where to Buy page</p>
+          <p className={styles.visibilityDesc}>
+            {comingSoon === null
+              ? "Loading…"
+              : comingSoon
+                ? "Visitors see a “Coming soon” page. Your shops are hidden."
+                : "Visitors see the list of shops below."}
+          </p>
+        </div>
+        <div className={styles.visibilityControls}>
+          <a
+            href="/stockists"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.cardLink}
+          >
+            View page ↗
+          </a>
+          <span className={`${styles.badge} ${comingSoon ? styles.badge_archived : styles.badge_new}`}>
+            {comingSoon === null ? "…" : comingSoon ? "Coming soon" : "Live"}
+          </span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={comingSoon === false}
+            aria-label="Show shops on the website"
+            className={`${styles.switch} ${comingSoon === false ? styles.switchOn : ""}`}
+            onClick={toggleComingSoon}
+            disabled={comingSoon === null || savingToggle}
+          >
+            <span className={styles.switchKnob} />
+          </button>
+        </div>
+      </section>
 
       {message && <p className={styles.success}>{message}</p>}
       {error && <p className={styles.error}>{error}</p>}

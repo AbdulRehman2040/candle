@@ -1,6 +1,8 @@
 import StockistList from "@/components/StockistList";
+import ComingSoon from "@/components/ComingSoon";
 import styles from "./stockists.module.css";
 import { getStockists } from "@/lib/stockists";
+import { isStockistsComingSoon } from "@/lib/settings";
 
 export const metadata = {
   title: "Where to Buy | Fondue Flame",
@@ -13,6 +15,15 @@ export const metadata = {
 export const revalidate = 60;
 
 export default async function StockistsPage() {
+  /* The dashboard's "Coming soon" switch replaces the list entirely. */
+  if (await isStockistsComingSoon()) {
+    return (
+      <div className={styles.page}>
+        <ComingSoon />
+      </div>
+    );
+  }
+
   const { shops } = await getStockists();
 
   return (
