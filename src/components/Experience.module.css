@@ -91,12 +91,12 @@
 }
 @media (min-width: 1024px) {
   .steps {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(1rem, 1.6vw, 1.75rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.2vw, 2.25rem);
   }
-  /* A gentle drop on alternate columns — an editorial rhythm rather
-     than four identical tiles in a rigid row. */
-  .step:nth-child(even) {
+  /* The middle column drops, so three tiles read as a rhythm rather
+     than a rigid row. */
+  .step:nth-child(2) {
     margin-top: clamp(1.75rem, 3.4vw, 3.5rem);
   }
 }

@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Original client media and generation sources — kept locally, never deployed
 /assets-source/
+/review/

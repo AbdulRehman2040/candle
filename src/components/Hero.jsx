@@ -145,7 +145,11 @@ export default function Hero() {
 
           <div className={`${styles.actions} ${styles.rise}`} style={{ "--d": "650ms" }}>
             <Link href="/#experience" className={styles.ctaPrimary}>
-              Discover the Experience
+              {/* The full label overruns the button on phones, so the short
+                  one takes over there. display:none keeps the hidden span
+                  out of the accessibility tree, so only one is announced. */}
+              <span className={styles.ctaLabelFull}>Discover the Experience</span>
+              <span className={styles.ctaLabelShort}>Experience</span>
             </Link>
             <Link href="/wholesale" className={styles.ctaGhost}>
               Wholesale
