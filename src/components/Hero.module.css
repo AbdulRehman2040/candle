@@ -249,6 +249,10 @@
 
 /* Secondary: same footprint, a translucent fill and a white hairline so
    it reads as a button rather than a stray link. */
+.ctaLabelShort {
+  display: none;
+}
+
 .ctaGhost {
   position: relative;
   display: inline-flex;
@@ -463,6 +467,12 @@
   }
   /* Side by side rather than stacked — stacking cost 60px of height the
      film needs, and both still clear the 44px tap-target minimum. */
+  .ctaLabelFull {
+    display: none;
+  }
+  .ctaLabelShort {
+    display: inline;
+  }
   .ctaPrimary,
   .ctaGhost {
     flex: 1 1 0;
