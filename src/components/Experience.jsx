@@ -21,13 +21,6 @@ const STAGES = [
   },
   {
     num: "03",
-    label: "Dip",
-    text: "Choose strawberries, fruit, marshmallows or your favourite treats.",
-    src: "/experience/dip.jpg",
-    alt: "A strawberry on a slim skewer entering the melted chocolate",
-  },
-  {
-    num: "04",
     label: "Share",
     text: "An experience created for 2 to 3 people to enjoy together.",
     src: "/experience/share.jpg",
@@ -92,9 +85,7 @@ export default function Experience() {
           </p>
 
           <h2 id="experience-heading" className={styles.headline}>
-            Light. Melt.
-            
-            Dip. Share.
+            Light. Melt. Share.
           </h2>
         </div>
 

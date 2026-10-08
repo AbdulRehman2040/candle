@@ -142,17 +142,6 @@ export default function Story() {
             worth remembering.
           </p>
 
-          <div className={`${styles.detail} ${styles.rise}`} style={{ "--d": "600ms" }}>
-            <p className={styles.count}>
-              <span className={styles.countNum}>02 / 03</span>
-              <span className={styles.countLabel}>People</span>
-            </p>
-            <span className={styles.detailRule} aria-hidden="true" />
-            <p className={styles.detailText}>
-              Designed for an intimate experience shared together.
-            </p>
-          </div>
-
           <div className={`${styles.ctaRow} ${styles.rise}`} style={{ "--d": "730ms" }}>
             <Link href="/#experience" className={styles.cta}>
               Discover the Experience
@@ -167,7 +156,7 @@ export default function Story() {
           <div className={styles.frame} style={{ "--d": "340ms" }}>
             <Image
               src="/story/product.jpg"
-              alt="The Fondue Flame ceramic fondue candle, its centre tealight lit and melted chocolate in the surrounding well, beside the brand gift box"
+              alt="The Fondue Flame ceramic candle lit, with a marshmallow and grape on a bamboo skewer held above it, fruit and the brand gift box behind"
               width={1500}
               height={1862}
               sizes="(max-width: 1023px) 92vw, 52vw"

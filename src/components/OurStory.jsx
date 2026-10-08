@@ -2,14 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import styles from "./OurStory.module.css";
 
 const HEADLINE = ["It started with", "a simple question."];
 
 const STORY = [
   "Inspired by the warmth of candlelight and the joy of sharing chocolate fondue, we set out to create an experience that combines both.",
-  "After countless prototypes and refinements, Fondue Flame was born. A product designed to spark conversation, create memories, and turn ordinary moments into special occasions.",
 ];
 
 /* The photograph drifts ~24px across the section — almost unnoticed */
@@ -117,9 +115,9 @@ export default function OurStory() {
           <div className={styles.frame}>
             <Image
               src="/story/origin-new.jpg"
-              alt="A fondue pot of melted chocolate warmed by a tealight beneath it, with strawberries and long forks on a candlelit table"
-              width={1400}
-              height={1750}
+              alt="The Fondue Flame ceramic candle resting in its gift box, the brand name printed on the front"
+              width={1500}
+              height={1500}
               sizes="(max-width: 1023px) 92vw, 54vw"
               className={styles.photo}
             />
@@ -173,14 +171,6 @@ export default function OurStory() {
 
           
 
-          <div className={`${styles.ctaRow} ${styles.rise}`} style={{ "--d": "1050ms" }}>
-            <Link href="/#our-story" className={styles.cta}>
-              Discover our story
-              <span className={styles.ctaArrow} aria-hidden="true">
-                &rarr;
-              </span>
-            </Link>
-          </div>
         </div>
       </div>
     </section>
