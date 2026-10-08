@@ -43,3 +43,9 @@ next-env.d.ts
 # Original client media and generation sources — kept locally, never deployed
 /assets-source/
 /review/
+
+# cPanel / Passenger
+/tmp/
+.deploy.lock
+deploy.log
+stderr.log
