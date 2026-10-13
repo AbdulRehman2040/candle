@@ -1,4 +1,6 @@
+import { after } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
+import { sendLeadEmails } from "@/lib/email";
 
 /* Receives wholesale enquiries from the form and stores them as leads.
  *
@@ -48,9 +50,14 @@ export async function POST(request) {
       phone: text(body.phone),
       business_type: body.businessType.trim(),
       website: text(body.website),
-      /* Location is part of the enquiry but has no column of its own —
-         it is kept with the message so nothing the sender typed is lost. */
-      message: [text(body.message), `Location: ${body.location.trim()}`]
+      /* Location and quantity are part of the enquiry but have no column
+         of their own — they are kept with the message so nothing the
+         sender typed is lost. */
+      message: [
+        text(body.message),
+        `Location: ${body.location.trim()}`,
+        text(body.quantity) && `Estimated quantity: ${text(body.quantity)}`,
+      ]
         .filter(Boolean)
         .join("\n\n"),
       status: "new",
@@ -70,9 +77,21 @@ export async function POST(request) {
     return Response.json({ error: "Could not save enquiry" }, { status: 500 });
   }
 
-  /* TODO: optional email notification (Resend / Postmark / SES) so the
-     team is alerted without opening the dashboard. The lead is saved
-     either way, so this is a convenience rather than a dependency. */
+  /* Alert the team and thank the sender. Runs after the response is sent,
+     so the form never waits on email, and a failed email cannot undo a
+     lead that is already saved. */
+  const lead = {
+    businessName: body.businessName.trim(),
+    contactName: body.contactName.trim(),
+    email: body.email.trim().toLowerCase(),
+    phone: text(body.phone),
+    website: text(body.website),
+    businessType: body.businessType.trim(),
+    location: body.location.trim(),
+    quantity: text(body.quantity),
+    message: text(body.message),
+  };
+  after(() => sendLeadEmails(lead));
 
   return Response.json({ ok: true }, { status: 200 });
 }
